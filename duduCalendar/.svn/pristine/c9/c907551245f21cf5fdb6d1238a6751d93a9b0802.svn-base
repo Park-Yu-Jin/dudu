@@ -1,0 +1,33 @@
+package dudu;
+
+public class HolidayVO {
+	private Long holidayIndex;
+    private String holidayDate;
+    private String holidayName;
+    
+	public Long getHolidayIndex() {
+		return holidayIndex;
+	}
+	public void setHolidayIndex(Long holidayIndex) {
+		this.holidayIndex = holidayIndex;
+	}
+	public String getHolidayDate() {
+		return holidayDate;
+	}
+	public void setHolidayDate(String holidayDate) {
+		this.holidayDate = holidayDate;
+	}
+	public String getHolidayName() {
+		return holidayName;
+	}
+	public void setHolidayName(String holidayName) {
+		this.holidayName = holidayName;
+	}
+	
+	@Override
+	public String toString() {
+		return "HolidayVO [holidayIndex=" + holidayIndex + ", holidayDate=" + holidayDate + ", holidayName="
+				+ holidayName + "]";
+	}
+    
+}

@@ -1,0 +1,91 @@
+package dudu.service;
+
+public class DailyVO {
+	public int dailyno;
+	public String useremail;
+	public String username;
+	public int pjno;
+	public String pjtitle;
+	public String datitle;
+	public String dacnt;
+	public String dadate;
+	public String dacolor;
+	boolean dafinish;
+	public int daimp;
+	
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPjtitle() {
+		return pjtitle;
+	}
+	public void setPjtitle(String pjtitle) {
+		this.pjtitle = pjtitle;
+	}
+	public int getDailyno() {
+		return dailyno;
+	}
+	public void setDailyno(int dailyno) {
+		this.dailyno = dailyno;
+	}
+	public String getUseremail() {
+		return useremail;
+	}
+	public void setUseremail(String useremail) {
+		this.useremail = useremail;
+	}
+	public int getPjno() {
+		return pjno;
+	}
+	public void setPjno(int pjno) {
+		this.pjno = pjno;
+	}
+	public String getDatitle() {
+		return datitle;
+	}
+	public void setDatitle(String datitle) {
+		this.datitle = datitle;
+	}
+	public String getDacnt() {
+		return dacnt;
+	}
+	public void setDacnt(String dacnt) {
+		this.dacnt = dacnt;
+	}
+	public String getDadate() {
+		return dadate;
+	}
+	public void setDadate(String dadate) {
+		this.dadate = dadate;
+	}
+	public String getDacolor() {
+		return dacolor;
+	}
+	public void setDacolor(String dacolor) {
+		this.dacolor = dacolor;
+	}
+	public boolean isDafinish() {
+		return dafinish;
+	}
+	public void setDafinish(boolean dafinish) {
+		this.dafinish = dafinish;
+	}
+	public int getDaimp() {
+		return daimp;
+	}
+	public void setDaimp(int daimp) {
+		this.daimp = daimp;
+	}
+	@Override
+	public String toString() {
+		return "DailyVO [dailyno=" + dailyno + ", useremail=" + useremail + ", pjno=" + pjno + ", datitle=" + datitle
+				+ ", dacnt=" + dacnt + ", dadate=" + dadate + ", dacolor=" + dacolor + ", dafinish=" + dafinish
+				+ ", daimp=" + daimp + "]";
+	}
+	
+	
+}

@@ -1,0 +1,212 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://webfontworld.github.io/TheJamsil/TheJamsil.css" rel="stylesheet">
+<title>비밀번호 초기화</title>
+</head>
+<style>
+	body{
+		background: #f6f5f7;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		height: 100vh;
+		margin: auto;
+		font-family: 'TheJamsil';
+	}
+	
+	form{
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		padding: 0 50px 50px;
+		height: 100%;
+		width: 400px;
+		text-align: center;
+	}
+
+	input{
+		width:100%;
+		padding: 12px 15px;
+		border: none;
+		margin: 8px 0;
+		background-color: #eee;
+	}
+	
+	button{
+		border-radius: 4px;
+		border: 1px solid #CEE3F6;
+		background-color: #CEE3F6;
+		color: #190707;
+		font-size: 12px;
+		font-weight: bold;
+		padding: 12px 45px;
+		letter-spacing: 1px;
+		transition: transform 80ms ease-in;
+	}
+	
+	button.active{
+		transform: scale(0.95);
+	}
+	
+	button.focus{
+		outline: none;
+	}
+	
+	button.ghost{
+		background-color: transparent;
+		border-color: #FFFFFF;
+	}
+	
+	img{
+		width: 300px;
+		height:150px;
+	}
+	
+	.modal{
+		position: absolute;
+		display: none;
+		justify-content: center;
+		top:0;
+		left:0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,0.4);
+	}
+	.modal2{
+		position: absolute;
+		display: none;
+		justify-content: center;
+		top:0;
+		left:0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,0.4);
+	}
+	.modal_body{
+		position: absolute;
+		top:50%;
+		width: 400px;
+		height: 600px;
+		padding: 40px;
+		text-align: center;
+		background-color: rgb(255,255,255);
+		border-radius: 10px;
+		box-shadow: 0 2px 3px 0 rgba(34,36,38,0.15);
+		transform: translateY(-50%);
+	}
+	
+</style>
+<body>	
+	<form action="send.do" name="sub1" method="POST">
+		<img src="<c:url value='/images/dudu/blue_duduCalendar_logo.svg' />">
+		<input type="text" id="username" name="username" placeholder="name"/>
+		<input type="email" id="useremail" name="useremail" placeholder="email"/>
+		<button id="open">비밀번호 발급</button>
+
+	</form>
+	<div class="modal">
+		<div class="modal_body">
+			<h2>인증번호 확인</h2>
+			<input type="text" id="no" placeholder="number">
+			<button id="chk">인증번호 확인</button>
+			<button id="x">취소</button>
+		</div>
+	</div>
+	<form action="updatepwd.do" name="sub2">
+	<div class="modal2">
+		<div class="modal_body">
+			<h2>모달창 제목</h2>
+			<input type="password" name="entrprsMberPassword" id="entrprsMberPassword" placeholder="변경할 비밀번호">
+			<input type="password" id="pwchk" placeholder="변경할 비밀번호 확인">
+			<button id="pwd">확인</button>
+			<button id="x1">취소</button>
+			<input type="hidden" name="applcntEmailAdres" value="${user.useremail}">
+		</div>
+	</div>
+	</form>
+</body>
+</html>
+
+<script type="text/javascript">
+	const open = document.getElementById("open");
+	const chk = document.getElementById("chk");
+	const modal = document.querySelector('.modal');
+	const x = document.getElementById('x');
+	const x1 = document.getElementById('x1');
+	const modal2 = document.querySelector('.modal2');
+	
+	const pwd = document.getElementById("pwd");
+	
+	pwd.onclick = function(){
+		if($('#entrprsMberPassword').val() == $('#pwchk').val()){
+			document.sub2.submit();
+			alert("변경완료");
+		}
+		else{
+			alert("비밀번호가 다릅니다.");
+		}
+	}
+	
+	open.onclick = function(){
+		if($('#username').val() != "" && $('#useremail').val() !=""){
+			document.sub1.submit();
+		}
+		else if($('#username').val() == ""){
+			alert("이름을 입력해주세요");
+			return false;
+		}
+		else{
+			alert("이메일을 입력해주세요");
+			return false;
+		}
+		
+	}
+	
+	window.onload=function(){
+		if("${user.useremail}"){
+			modal.style.display="flex";
+		}
+		else{
+			modal.style.display="none";
+		}
+	}
+
+	chk.onclick = function (){
+		const chk = document.getElementById("no").value;
+		const pw = "${user.message}"
+		console.log(chk);
+		console.log(pw);
+		if(chk==""){
+			alert("인증번호를 입력해주세요");
+			
+		}
+		else if(chk==pw){
+			alert("확인 완료");
+			modal.style.display="none";
+			modal2.style.display="flex";
+		}
+		else{
+			alert("인증번호가 정확하지 않습니다.");
+		}
+	}
+	
+	
+	x.onclick = function(){
+		modal.style.display="none";
+		
+	}
+	x1.onclick = function(){
+		modal2.style.display="none";
+		
+	}
+
+</script>

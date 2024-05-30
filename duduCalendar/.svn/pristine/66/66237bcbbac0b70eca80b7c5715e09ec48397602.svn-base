@@ -1,0 +1,37 @@
+package dudu.service.impL;
+
+import dudu.service.DailyVO;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+import dudu.sql.CommonDAO;
+import dudu.service.DailyService;
+
+@Service
+public class DailyServiceimpl implements DailyService {
+	@Resource(name = "commonDAO")
+	private CommonDAO commondao;
+	
+	/*일일업무 등록*/
+	@Override
+	public void Dailyinsert(DailyVO vo) throws Exception{
+		commondao.insert("DailyDAO.dailyinsert",vo);
+	}
+	
+	/*일일업무 수정*/
+	@Override
+	public void Dailyupdate(DailyVO vo) throws Exception{
+		commondao.update("DailyDAO.dailyupdate",vo);
+	}
+	
+	/*일일업무 삭제*/
+	@Override
+	public void Dailydelete(DailyVO vo)throws Exception{
+		commondao.delete("DailyDAO.dailydelete",vo);
+	}
+	
+	/* 일일업무 날짜 이동 */
+	@Override
+	public void DailyDateupdate(DailyVO vo) throws Exception{
+		commondao.update("DailyDAO.dailyDateupdate",vo);
+	}
+}

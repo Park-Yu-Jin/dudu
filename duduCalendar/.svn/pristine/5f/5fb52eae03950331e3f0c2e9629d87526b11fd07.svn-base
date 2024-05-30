@@ -1,0 +1,30 @@
+package dudu.service.impL;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import dudu.sql.CommonDAO;
+import dudu.service.UserVO;
+import dudu.service.adminService;
+
+
+@Service
+public class AdminServiceimpl implements adminService {
+	
+	@Resource(name="commonDAO")
+	private CommonDAO commondao;
+	
+	@Override
+	public void updatestatus(UserVO vo) throws Exception{
+		commondao.update("adminDAO.regist",vo);
+	}
+	
+	@Override
+	public void traderank(UserVO vo) throws Exception{
+		commondao.update("adminDAO.trade",vo);
+	}
+}

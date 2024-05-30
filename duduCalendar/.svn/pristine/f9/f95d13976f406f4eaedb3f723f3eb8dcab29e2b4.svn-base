@@ -1,0 +1,12 @@
+package dudu.service;
+
+import java.util.List;
+
+import dudu.member.login.service.DuduLoginVO;
+import dudu.service.ApprovalVO;
+
+public interface ApprovalService {
+	public void appinsert(ApprovalVO vo) throws Exception;
+	public List<ApprovalVO> applist(DuduLoginVO vo)throws Exception;
+	public ApprovalVO detailapp(int appauto);
+}

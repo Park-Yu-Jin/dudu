@@ -1,0 +1,62 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>수정 로그</title>
+<script type="text/javascript" src="js/egovframework/com/jQuery.js"></script>
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css'/>">
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cop/smt/sdm/dept_schdule_manage.css'/>">
+<link href="https://webfontworld.github.io/TheJamsil/TheJamsil.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="<c:url value='../../css/dudu/nav.css'/>">
+<link type="text/css" rel="stylesheet" href="<c:url value='../../css/dudu/pjlist.css'/>">
+
+</head>
+<body>
+	<table>
+        <thead>
+            <tr>
+                <th>Log Number</th>
+                <th>Project Number</th>
+                <th>User Email</th>
+                <th>Old Title</th>
+                <th>New Title</th>
+                <th>Old Text</th>
+                <th>New Text</th>
+                <th>Old Member</th>
+                <th>New Member</th>
+                <th>Old Start Date</th>
+                <th>New Start Date</th>
+                <th>Old End Date</th>
+                <th>New End Date</th>
+                <th>Date</th>
+                <th>Old Color</th>
+                <th>New Color</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="log" items="${logResult}">
+                <tr>
+                    <td>${log.logNo}</td>
+                    <td>${log.pjno}</td>
+                    <td>${log.useremail}</td>
+                    <td>${log.logOldtitle}</td>
+                    <td>${log.pjtitle}</td>
+                    <td>${log.logOldtext}</td>
+                    <td>${log.pjcnt}</td>
+                    <td>${log.logOldmember}</td>
+                    <td>${log.pjmember}</td>
+                    <td>${log.logOldstart}</td>
+                    <td>${log.pjstart}</td>
+                    <td>${log.logOldend}</td>
+                    <td>${log.pjend}</td>
+                    <td>${log.logDate}</td>
+                    <td>${log.logOldcolor}</td>
+                    <td>${log.pjcolor}</td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+</body>
+</html>

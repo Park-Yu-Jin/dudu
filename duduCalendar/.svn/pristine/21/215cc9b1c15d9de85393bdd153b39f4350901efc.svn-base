@@ -1,0 +1,77 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import = "java.util.List" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+	.btndiv{
+		width:100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 10px;
+	}
+	.leftbutton{
+		  font-size: 10px;
+		  color: #60ec8c;
+		  background-color: transparent;
+		  border: 1px solid #60ec8c;
+		  padding: 12px 30px;
+		  border-radius: 25px;
+		  font-weight: 400;
+		  text-transform: capitalize;
+		  letter-spacing: 0.5px;
+		  transition: all .3s;
+		  overflow: hidden;
+		  
+		  
+	}
+</style>
+<body>
+
+	<nav class="leftNav">
+	<div style="display: flex; justify-content: center; align-items:center; min-height: 80dvh; flex-direction: column;">
+		<div class="btndiv">
+			<button class="leftbutton" id="project" onclick="project()">프로젝트 등록</button>
+			
+		</div>
+		<div class="btndiv">
+			<button class="leftbutton" id="daily" onclick="daily()">일일업무 등록</button>
+		</div>
+	</div>
+	
+
+	</nav>
+	
+</body>
+</html>
+<script type="text/javascript">
+
+ function project(){
+		var calendar = window.parent.frames["_calendar"];
+		calendar.openProject();
+	}
+
+ function daily(){
+	 var daily = window.parent.frames["_calendar"];
+	 	daily.openDaily();
+ }
+
+	$('#regist').click(function(){
+		document.sub2.submit();
+	})
+	
+	console.log("여기는 왼쪽 ${param.username}");
+	console.log(typeof " ${param.username}");
+	<c:forEach items="${param.username}" var="userlist">
+	console.log("${userlist}");
+	</c:forEach>
+</script>

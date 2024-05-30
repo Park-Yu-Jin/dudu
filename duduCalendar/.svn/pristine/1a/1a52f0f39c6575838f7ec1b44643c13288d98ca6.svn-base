@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DailyDAO">
+	<resultMap id="daily" type="dudu.service.DailyVO">
+		<result property="dailyno" column="DAILY_NO"/>
+		<result property="useremail" column="USER_EMAIL"/>
+		<result property="username" column="USER_NAME"/>
+		<result property="pjno" column="PROJECT_NO"/>
+		<result property="pjtitle" column="PROJECT_TITLE"/>
+		<result property="datitle" column="DAILY_TITLE"/>
+		<result property="dacnt" column="DAILY_CONTENT"/>
+		<result property="dadate" column="DAILY_DATE"/>
+		<result property="dacolor" column="DAILY_COLOR"/>
+		<result property="dafinish" column="DAILY_ISFINISH"/>
+		<result property="daimp" column="DAILY_IMPORTANCE"/>
+	</resultMap>
+	
+	<insert id="dailyinsert" parameterType="dudu.service.DailyVO">
+		INSERT INTO DAILY_SCHEDULE(
+			USER_EMAIL,
+			USER_NAME,
+			PROJECT_NO,
+			DAILY_TITLE,
+			DAILY_CONTENT,
+			DAILY_DATE,
+			DAILY_COLOR,
+			DAILY_ISFINISH,
+			DAILY_IMPORTANCE,
+			PROJECT_TITLE
+		)
+		 VALUE(
+		 	#{useremail},
+		 	#{username},
+		 	#{pjno},
+		 	#{datitle},
+		 	#{dacnt},
+		 	SYSDATE(),
+		 	#{dacolor},
+		 	#{dafinish},
+		 	#{daimp},
+		 	#{pjtitle}
+		 )
+	</insert>
+	
+	<update id="dailyupdate" parameterType="dudu.service.DailyVO">
+		UPDATE DAILY_SCHEDULE SET
+			DAILY_TITLE = #{datitle},
+			DAILY_COLOR = #{dacolor},
+			DAILY_CONTENT = #{dacnt},
+			DAILY_DATE = SYSDATE(),
+			DAILY_ISFINISH = #{dafinish},
+			DAILY_IMPORTANCE = #{daimp},
+			PROJECT_TITLE = #{pjtitle}
+			WHERE DAILY_NO = #{dailyno}
+	</update>
+	<update id="dailyDateupdate" parameterType="dudu.service.DailyVO">
+		UPDATE DAILY_SCHEDULE SET
+			DAILY_DATE = #{dadate} WHERE DAILY_NO = #{dailyno}
+	</update>
+	
+	<delete id="dailydelete">
+		DELETE FROM DAILY_SCHEDULE WHERE DAILY_NO = #{dailyno}
+	</delete>
+	
+	<select id="getDailyList" resultMap="daily" parameterType="map">
+		select * from DAILY_SCHEDULE where USER_EMAIL = #{email}
+		<if test="isFinish != null and isFinish != ''">
+            AND DAILY_ISFINISH = #{isFinish}
+        </if>
+		<if test="keyword != null and keyword != ''">
+            AND DAILY_TITLE LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        order by DAILY_DATE desc, DAILY_IMPORTANCE desc
+	</select>
+	
+	<select id="selectDaily" parameterType="int" resultMap="daily">
+		select * from DAILY_SCHEDULE where DAILY_NO = #{dailyno}
+	</select>
+	
+	<insert id="insertDaily" parameterType="dudu.service.DailyVO">
+		INSERT INTO DAILY_SCHEDULE(
+			USER_EMAIL,
+			USER_NAME,
+			PROJECT_NO,
+			PROJECT_TITLE,
+			DAILY_TITLE,
+			DAILY_CONTENT,
+			DAILY_DATE,
+			DAILY_COLOR,
+			DAILY_ISFINISH,
+			DAILY_IMPORTANCE
+		)
+		 VALUE(
+		 	#{useremail},
+		 	#{username},
+		 	#{pjno},
+		 	#{pjtitle},
+		 	#{dacnt},
+		 	#{dadate},
+		 	#{dacolor},
+		 	#{dafinish},
+		 	#{daimp}
+		 )
+	</insert>
+	
+	<!-- 프로젝트 총 갯수 -->
+	<select id="count" resultType="int">
+		SELECT COUNT(DAILY_NO) FROM DAILY_SCHEDULE WHERE PROJECT_NO = #{pjno}
+	</select>
+	
+	<!-- 프로젝트 목록 + 페이징 -->
+	<select id="dailyListPage" parameterType="java.util.HashMap" resultMap="daily">
+		SELECT * FROM DAILY_SCHEDULE where PROJECT_NO = #{pjno}
+			ORDER BY DAILY_DATE DESC
+				LIMIT #{start}, #{limit}
+	</select>
+</mapper>

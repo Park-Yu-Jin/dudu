@@ -1,0 +1,9 @@
+package dudu.service;
+
+import java.util.List;
+import dudu.service.UserVO;
+
+public interface adminService {
+	public void updatestatus(UserVO vo) throws Exception;
+	public void traderank(UserVO vo)throws Exception;
+}

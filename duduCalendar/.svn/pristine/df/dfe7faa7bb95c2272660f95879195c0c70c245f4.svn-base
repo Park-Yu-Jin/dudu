@@ -1,0 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h5>프로젝트 등록 해볼게오</h5>
+<div id="modal1" class="modal">
+<form action="pjinsert.do" name="sub2" method="POST">
+	<table>
+		<tbody>
+			<tr>
+				<td>색 : <input type="color" name="pjcolor"></td>
+				<td>프로젝트 제목 : <input type="text" name="pjtitle"></td>
+			</tr>
+			<tr>
+			  <td>시작날짜 : <input type="text" name="pjstart"></td>
+			</tr>
+			<tr>
+			  <td>종료날짜 : <input type="text" name="pjend"></td>
+			</tr>
+			 <tr>
+			 	<td>프로젝트 참여인원 : <input type="text" name="pjmember"></td>
+			 </tr>
+			  <tr>
+			  <td>프로젝트 내용 : <textarea name="pjcnt"></textarea></td>
+			  </tr>
+		 	<tr> 
+			  <td>프로젝트 선택: ??</td>
+			  </tr>
+			  <tr>
+			  <td><input type="button" value="등록하기" id="regist"></td>
+			  <td><a href="#" rel="modal:close">닫기</a></td>
+			  </tr>
+			  <input type="hidden" name="useremail" value="ddd@naver.com">
+			  <input type="hidden" name="pjdm" value="LMS팀">
+  		</tbody>
+  	</table>
+</form>  
+</div>
+
+<p><a href="#modal1" rel="modal:open">프로젝트 등록</a></p>
+</body>
+</html>
+<script type="text/javascript">
+	$('#regist').click(function(){
+		document.sub2.submit();
+	})
+	
+</script>

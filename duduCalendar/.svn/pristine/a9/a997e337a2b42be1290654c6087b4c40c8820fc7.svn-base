@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminDAO">
+	<resultMap id="user" type="dudu.service.UserVO">
+		<result property="useremail" column="USER_EMAIL" />
+		<result property="userpw" column="USER_PW" />
+		<result property="username" column="USER_NAME" />
+		<result property="userdepartment" column="USER_DEPARTMENT" />
+		<result property="userrank" column="USER_RANK" />
+		<result property="userrole" column="USER_ROLE" />
+		<result property="userstatus" column="USER_STATUS" />
+	</resultMap>
+
+	<update id="regist" parameterType="dudu.service.UserVO">
+		UPDATE USER SET USER_STATUS =
+		#{userstatus} WHERE USER_EMAIL = #{useremail}
+	</update>
+
+	<update id="trade" parameterType="dudu.service.UserVO">
+		UPDATE USER SET USER_RANK =
+		#{userrank}, USER_ROLE = #{userrole} WHERE USER_EMAIL = #{useremail}
+	</update>
+
+	<!-- 유저 총 갯수 -->
+	<select id="usercount" resultType="int">
+		SELECT COUNT(*) FROM USER
+		WHERE USER_NAME != '관리자'
+	</select>
+
+	<!-- 유저 목록 + 페이징 -->
+	<select id="userpage" parameterType="java.util.HashMap"
+		resultMap="user">
+		SELECT * FROM (
+			SELECT * FROM USER
+			WHERE USER_NAME != '관리자'
+			ORDER BY
+				CASE
+					WHEN USER_STATUS = '미승인' THEN 0
+					ELSE 1
+				END,
+				CASE
+					WHEN USER_STATUS = '미승인' THEN USER_STATUS
+					ELSE USER_ROLE
+				END DESC
+		) AS sorted_users
+		ORDER BY
+			CASE
+				WHEN USER_STATUS = '미승인' THEN 0
+				ELSE 1
+			END,
+			CASE
+				WHEN USER_STATUS = '미승인' THEN USER_STATUS
+				ELSE USER_ROLE
+			END DESC,
+			CASE
+				WHEN USER_STATUS = '미승인' THEN USER_ROLE
+				ELSE NULL
+			END DESC
+		LIMIT #{start},#{limit}
+	</select>
+</mapper>

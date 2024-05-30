@@ -1,0 +1,537 @@
+package dudu.Controller;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.UUID;
+
+import dudu.sql.CommonDAO;
+
+import java.util.Date;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.apache.commons.compress.utils.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import dudu.service.UserVO;
+import dudu.service.DailyVO;
+import dudu.service.EmailService;
+import dudu.service.ProjectVO;
+import dudu.service.ProjectService;
+import egovframework.com.uat.uia.service.EgovLoginService;
+import dudu.service.adminService;
+import dudu.service.PageVO;
+import dudu.member.login.service.DuduLoginService;
+import dudu.member.login.service.DuduLoginVO;
+import dudu.project.service.ProjectLogsService;
+import dudu.project.service.ProjectLogsVO;
+import dudu.service.DailyService;
+import dudu.service.ApprovalVO;
+import dudu.service.ApprovalService;
+
+@Controller
+public class MainController implements ApplicationContextAware, InitializingBean {
+
+	@Autowired
+	private adminService adminService;
+	
+	@Autowired
+	private ApprovalService approvalService;
+	
+	@Autowired
+	private DailyService dailyService;
+	
+	@Autowired
+	private DuduLoginService duduLoginService;
+	
+	@Autowired
+	private EmailService emailService;
+
+	@Autowired
+	private ProjectService projectService;
+	
+	@Autowired
+	private ProjectLogsService projectLogsService;
+	
+	@Resource(name = "commonDAO")
+	private CommonDAO commondao;
+
+	@Resource(name = "loginService")
+	private EgovLoginService loginService;
+	
+	private ApplicationContext applicationContext;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+
+	public void afterPropertiesSet() throws Exception {
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+
+		LOGGER.info("EgovComIndexController setApplicationContext method has called!");
+	}
+
+	@RequestMapping(value = "main.do")
+	public String mainDo() throws Exception {
+		return "dudu/login";
+	}
+
+	@RequestMapping("dudu.do")
+	public String main(ModelMap model) throws Exception {
+		return "dudu/main";
+	}
+
+	@RequestMapping("send.do")
+	public String send(@ModelAttribute UserVO vo, Model model) {
+		String str = emailService.getPassword();
+		System.out.println("################" + vo.getUseremail());
+		System.out.println("비밀번호: " + str);
+		try {
+			emailService.sendMail(vo, str);
+			vo.setMessage(str);
+			System.out.println(vo.getMessage());
+			System.out.println(vo);
+			model.addAttribute("user", vo);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("message", "이메일 발송 실패");
+		}
+		return "dudu/main";
+	}
+
+	/* 프로젝트 등록 */
+	@RequestMapping("pjinsert.do")
+	public String pjinsert(ProjectVO vo, ProjectLogsVO plvo, @RequestParam(value="dudu")String dudu, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			projectService.pjinsert(vo);
+			projectLogsService.plInsert(plvo);
+			if(dudu.equals("calendar")) {
+				return "redirect:/duducalendar.do";
+			}
+			return "redirect:/pjlist.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+
+	/* 프로젝트 수정 */
+	@RequestMapping("pjupdate.do")
+	public String pjupdate(ProjectVO vo, ProjectLogsVO plvo, @RequestParam(value="dudu")String dudu, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			projectService.pjupdate(vo);
+			projectLogsService.plCopyInsert(plvo);
+			projectLogsService.plUpdate(plvo);
+			if(dudu.equals("calendar")) {
+				return "redirect:/duducalendar.do";
+			}else if(dudu.equals("search")) {
+				return "redirect:/searchlist.do";
+			}
+			return "redirect:/pjlist.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+
+	/* 프로젝트 삭제 */
+	@RequestMapping("pjdelete.do")
+	public String pjdelete(ProjectVO vo, @RequestParam(value="dudu")String dudu, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			projectService.pjdelete(vo);
+			if(dudu.equals("calendar")) {
+				return "redirect:/duducalendar.do";
+			}
+			return "redirect:/pjlist.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+
+	/* 일일 업무 등록 */
+	@RequestMapping("dailyinsert.do")
+	public String dailyinsert(DailyVO vo, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			dailyService.Dailyinsert(vo);
+			return "redirect:/duducalendar.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+	
+	/*일일 업무 수정*/
+	@RequestMapping("dailyupdate.do")
+	public String dailyUpdate(DailyVO vo, HttpServletRequest req) throws Exception{
+		if (duduLoginService.isLogined(req)) {
+			dailyService.Dailyupdate(vo);
+			return "redirect:/duducalendar.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+	
+	@RequestMapping("dailyMouseupdate.do")
+	public String dailyMouseupdate(DailyVO vo, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			dailyService.DailyDateupdate(vo);
+			return "redirect:/duducalendar.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+
+	/*일일 업무 삭제*/
+	@RequestMapping("dailydelete.do")
+	public String dailydelete(DailyVO vo, HttpServletRequest req) throws Exception{
+		if (duduLoginService.isLogined(req)) {
+			dailyService.Dailydelete(vo);
+			return "redirect:/duducalendar.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+	
+	/* 프로젝트 목록 출력 */
+	@RequestMapping("pjlist.do")
+	public String pjlist(UserVO vo, ModelMap model,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			List<UserVO> admin = emailService.userlist(vo);
+			model.addAttribute("userList", admin);
+			
+			List<ProjectVO> pagingList = projectService.pagingList(page);
+			PageVO pagevo = projectService.pagingParam(page);
+			
+			model.addAttribute("result", pagingList);
+			model.addAttribute("paging", pagevo);
+			return "dudu/pjlist";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+
+	@RequestMapping("test.do")
+	public String test(HttpServletRequest req) {
+		if (duduLoginService.isLogined(req)) {
+			return "dudu/test";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+
+	@RequestMapping("leftNav.do")
+	public String leftNav(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		DuduLoginVO user = (DuduLoginVO) session.getAttribute("loginMember");
+		return "dudu/nav/leftNav";
+	}
+
+	@RequestMapping("topNav.do")
+	public String topNav() {
+		return "dudu/nav/topNav";
+	}
+
+	@RequestMapping("rightNav.do")
+	public String rightNav(ModelMap model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		DuduLoginVO user = (DuduLoginVO) session.getAttribute("loginMember");
+
+		List<DailyVO> daily = projectService.getDailyList(user.getEmail(), "false", null);
+		
+		model.addAttribute("dailyList", daily);
+
+		Date today = new Date();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(today);
+
+        model.addAttribute("todayDate", formattedDate);
+
+		return "dudu/nav/rightNav";
+	}
+
+	@RequestMapping("admin.do")
+	public String admin(UserVO vo, ModelMap model,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			List<UserVO> pagingList = adminService.userlistpage(page);
+			PageVO pagevo = adminService.pagingParam(page);
+			
+			System.out.println("maxpage = " + pagevo.getMaxPage());
+			System.out.println("page = " + pagevo);
+			
+			int count = commondao.selectOne("adminDAO.usercount");
+			int maxPage = (int) (Math.ceil((double) count / 7));
+			System.out.println("count = " + count);
+			System.out.println("maxPage = " + maxPage);
+			
+			model.addAttribute("user", pagingList);
+			model.addAttribute("paging", pagevo);
+			return "dudu/admin/admin";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+
+	/* 가입 승인 */
+	@RequestMapping("adminregist.do")
+	public String adminregist(UserVO vo, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			String[] email = req.getParameterValues("useremail");
+			for (int i = 0; i < email.length; i++) {
+				vo.setUserstatus("승인");
+				vo.setUseremail(email[i]);
+				adminService.updatestatus(vo);
+			}
+			return "redirect:/admin.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+
+	/* 직급 변경 */
+	@RequestMapping("admintrade.do")
+	public String admintrade(UserVO vo, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			String[] rank = req.getParameterValues("userrank");
+			String[] email = req.getParameterValues("useremail");
+			
+			for (int i = 0; i < rank.length; i++) {
+				vo.setUserrank(rank[i]);
+				vo.setUseremail(email[i]);
+				adminService.traderank(vo);
+			}
+			return "redirect:/admin.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+	
+	/*결재함 목록*/
+	@RequestMapping("approval.do")
+	public String approval(UserVO uservo, ModelMap model,
+			HttpServletRequest req,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value="appstatus", required=false, defaultValue="대기") String appstatus) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			List<UserVO> admin = emailService.userlist(uservo);
+			
+			System.out.println("status = "+appstatus);
+			HttpSession session = req.getSession();
+			DuduLoginVO user = (DuduLoginVO) session.getAttribute("loginMember");
+			
+			List<ApprovalVO> applist = approvalService.applist(user,page,appstatus);
+			PageVO pagevo = approvalService.pagingParam(page,appstatus,user);
+			
+			model.addAttribute("applist",applist);
+			System.out.println("applist = "+ applist);
+			
+			model.addAttribute("userList", admin);
+			model.addAttribute("paging",pagevo);
+			model.addAttribute("status",appstatus);
+			return "dudu/approval/approval";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+	
+	/*결재 상세 페이지*/
+	@RequestMapping("detailapp.do")
+	public String detailapp(int appauto, ModelMap model, HttpServletRequest req) {
+		if (duduLoginService.isLogined(req)) {
+			System.out.println("appauto = "+appauto);
+			ApprovalVO detailapp = approvalService.detailapp(appauto);
+			model.addAttribute("applist",detailapp);
+			System.out.println("detailapp="+detailapp);
+			System.out.println("detailapp title = "+detailapp.apptitle);
+			return "dudu/approval/detailapp";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+	
+	/*결재 등록*/
+	@RequestMapping("appinsert.do")
+	public String appsinert(ApprovalVO vo, HttpServletRequest req, @RequestParam(value="filename", required=false) MultipartFile[] appfile) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			/*결재 등록*/
+				String[] role = req.getParameterValues("appmember");
+				TreeMap<String,String> treeMap = new TreeMap<>();
+				
+				
+				/*MultipartFile mfile = mulreq.getFile(filenames.next());
+				System.out.println("mfile = "+mfile);
+				System.out.println("mfile name = "+mfile.getOriginalFilename());*/
+				
+
+				
+				for(int i =0;i<role.length;i++) {
+					String[] result = role[i].split(",");
+					treeMap.put(result[1], result[0]);
+				}
+				System.out.println("treeMap = "+treeMap);
+				
+				if(role.length == 3) {
+					vo.setAppfirst(treeMap.firstKey());
+					vo.setFindfirst(treeMap.get(treeMap.firstKey()));
+					treeMap.remove(treeMap.firstKey());
+					vo.setAppmiddle(treeMap.firstKey());
+					vo.setFindmiddle(treeMap.get(treeMap.firstKey()));
+					treeMap.remove(treeMap.firstKey());
+					vo.setAppfinal(treeMap.firstKey());
+					vo.setFindfinal(treeMap.get(treeMap.firstKey()));
+				}
+				else if(role.length == 2) {
+					vo.setAppfirst("완료");
+					vo.setAppmiddle(treeMap.firstKey());
+					vo.setFindmiddle(treeMap.get(treeMap.firstKey()));
+					treeMap.remove(treeMap.firstKey());
+					vo.setAppfinal(treeMap.firstKey());
+					vo.setFindfinal(treeMap.get(treeMap.firstKey()));;
+				}
+				else {
+					vo.setAppfirst("완료");
+					vo.setAppmiddle("완료");
+					vo.setAppfinal(treeMap.firstKey());
+					vo.setFindfinal(treeMap.get(treeMap.firstKey()));
+				}
+				
+				
+				String realname = appfile[0].getOriginalFilename();
+				for(int i =1;i<appfile.length;i++) {
+					realname += ","+appfile[i].getOriginalFilename();
+				}
+				System.out.println("realname = "+realname);
+				String uniq = "";
+				
+				for(int i =0;i<appfile.length;i++) {
+				if(!appfile[i].isEmpty()) {
+					String fileRealName = appfile[i].getOriginalFilename();
+					System.out.println("파일 진짜 이름 = "+ fileRealName);
+					
+					String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."),fileRealName.length());
+					System.out.println("파일 확장자 = "+fileExtension);
+					
+					UUID uuid = UUID.randomUUID();
+					System.out.println("uuid = "+uuid.toString());
+					String[] uuids = uuid.toString().split("-");
+					
+					String uniqueName = uuids[0];
+					
+					File saveFile = new File("C:\\Users\\sec7\\Desktop\\eGovFrameDev-3.10.0-64bit\\workspace5\\duduCalendar\\src\\main\\webapp\\dudufile\\"+uniqueName+fileExtension);
+					appfile[i].transferTo(saveFile);
+					if(i == 0) {
+						uniq = uniqueName+fileExtension;
+					}else {
+					uniq += ","+uniqueName+fileExtension;
+					}
+				}
+				}
+				System.out.println("uniq = "+uniq);
+				
+				vo.setAppfilename(realname);
+				vo.setAppfile(uniq);
+				
+				
+				String name=req.getParameter("username");
+				String email = req.getParameter("useremail");
+				String hap = name+","+email;
+				System.out.println("hap = "+ hap);
+				vo.setUseremail(hap);
+				
+				approvalService.appinsert(vo);
+				return "redirect:/approval.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+	
+	/*첨부파일 다운로드*/
+	@RequestMapping("/download")
+    public void downloadFile(HttpServletResponse response, HttpServletRequest req) {
+		if (duduLoginService.isLogined(req)) {
+			String filename = req.getParameter("filename");
+			
+			// 파일을 읽어올 경로
+			String filePath = "C:\\Users\\sec7\\Desktop\\eGovFrameDev-3.10.0-64bit\\workspace5\\duduCalendar\\src\\main\\webapp\\dudufile\\"+filename;
+			
+			// 파일 이름
+			String fileName = filename;
+			
+			try {
+				// 파일 읽기
+				InputStream inputStream = new FileInputStream(filePath);
+				
+				// HTTP 응답 설정
+				response.setContentType("application/pdf");
+				response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+				
+				// 파일 전송
+				IOUtils.copy(inputStream, response.getOutputStream());
+				response.flushBuffer();
+				inputStream.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+    }
+	
+	/*결재 승인*/
+	@RequestMapping("approve.do")
+	public String approve(ApprovalVO vo, HttpServletRequest req) throws Exception {
+		if (duduLoginService.isLogined(req)) {
+			String role = req.getParameter("userrole");
+			Date today = new Date();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			if(role.equals(vo.getAppfirst())) {
+				vo.setAppfirst(vo.useremail);
+			}
+			else if(role.equals(vo.getAppmiddle())) {
+				vo.setAppmiddle(vo.useremail);
+			}
+			else if(role.equals(vo.getAppfinal())) {
+				vo.setAppfinal(vo.useremail);
+				vo.setAppstatus("완료");
+				vo.setAppenddate(dateFormat.format(today));
+			}
+			approvalService.appupdate(vo);
+			
+			return "redirect:/approval.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+	
+	/*결재 반려*/
+	@RequestMapping("appback.do")
+	public String appback(ApprovalVO vo, HttpServletRequest req){
+		if (duduLoginService.isLogined(req)) {
+			vo.setAppstatus("반려");
+			approvalService.appback(vo);
+			return "redirect:approval.do";
+		} else {
+			return "redirect:/main.do";
+		}
+	}
+}

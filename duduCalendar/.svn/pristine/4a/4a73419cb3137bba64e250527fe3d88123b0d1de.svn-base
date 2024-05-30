@@ -1,0 +1,270 @@
+package dudu.Controller;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import dudu.sql.CommonDAO;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import dudu.service.UserVO;
+import dudu.service.DailyVO;
+import dudu.service.EmailService;
+import dudu.service.ProjectVO;
+import dudu.service.ProjectService;
+import egovframework.com.uat.uia.service.EgovLoginService;
+import dudu.service.adminService;
+import dudu.service.PageVO;
+import dudu.member.login.service.DuduLoginVO;
+import dudu.service.DailyService;
+
+@Controller
+public class MainController implements ApplicationContextAware, InitializingBean {
+
+	@Autowired
+	private EmailService emailService;
+
+	@Resource(name = "commonDAO")
+	private CommonDAO commondao;
+
+	@Autowired
+	private ProjectService projectService;
+
+	@Autowired
+	private DailyService dailyService;
+
+	@Autowired
+	private adminService adminService;
+
+	private ApplicationContext applicationContext;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+
+	public void afterPropertiesSet() throws Exception {
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+
+		LOGGER.info("EgovComIndexController setApplicationContext method has called!");
+	}
+
+	/** EgovLoginService */
+	@Resource(name = "loginService")
+	private EgovLoginService loginService;
+
+	@RequestMapping(value = "main.do")
+	public String mainDo() throws Exception {
+		return "dudu/login";
+	}
+
+//	@RequestMapping(value = "calendar.do")
+//	public String CalendarDo() throws Exception {
+//		return "dudu/helloworld";
+//	}
+
+	@RequestMapping("dudu.do")
+	public String main(ModelMap model) throws Exception {
+		System.out.println("성공");
+		System.out.println("ㅎㅎ");
+		return "dudu/main";
+	}
+
+	@RequestMapping("send.do")
+	public String send(@ModelAttribute UserVO vo, Model model) {
+		String str = emailService.getPassword();
+		System.out.println("################" + vo.getUseremail());
+		System.out.println("비밀번호: " + str);
+		try {
+			emailService.sendMail(vo, str);
+//			emailService.updatePassword(vo);
+			vo.setMessage(str);
+			System.out.println(vo.getMessage());
+			System.out.println(vo);
+			model.addAttribute("user", vo);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("message", "이메일 발송 실패");
+		}
+		return "dudu/main";
+	}
+
+	/* 프로젝트 등록 */
+	@RequestMapping("pjinsert.do")
+	public String pjinsert(ProjectVO vo) throws Exception {
+		projectService.pjinsert(vo);
+		return "redirect:/duducalendar.do";
+	}
+
+	/* 프로젝트 수정 */
+	@RequestMapping("pjupdate.do")
+	public String pjupdate(ProjectVO vo,@RequestParam(value="dudu")String dudu) throws Exception {
+		System.out.println("수정시작"+vo.getPjtitle());
+		projectService.pjupdate(vo);
+		System.out.println("수정 종료"+vo.getPjtitle());
+		if(dudu.equals("calendar")) {
+			return "redirect:/duducalendar.do";
+		}
+		return "redirect:/pjlist.do";
+	}
+
+	/* 프로젝트 삭제 */
+	@RequestMapping("pjdelete.do")
+	public String pjdelete(ProjectVO vo,@RequestParam(value="dudu")String dudu) throws Exception {
+		projectService.pjdelete(vo);
+		if(dudu.equals("calendar")) {
+			return "redirect:/duducalendar.do";
+		}
+		return "redirect:/pjlist.do";
+	}
+
+	/* 일일 업무 등록 */
+	@RequestMapping("dailyinsert.do")
+	public String dailyinsert(DailyVO vo) throws Exception {
+		dailyService.Dailyinsert(vo);
+		return "redirect:/duducalendar.do";
+	}
+
+	/*일일 업무 수정*/
+	@RequestMapping("dailyupdate.do")
+	public String dailyUpdate(DailyVO vo)throws Exception{
+		dailyService.Dailyupdate(vo);
+		return "redirect:/duducalendar.do";
+	}
+	
+	@RequestMapping("dailyMouseupdate.do")
+	public String dailyMouseupdate(DailyVO vo) throws Exception {
+		dailyService.DailyDateupdate(vo);
+		return "redirect:/duducalendar.do";
+	}
+
+	/*일일 업무 삭제*/
+	@RequestMapping("dailydelete.do")
+	public String dailydelete(DailyVO vo)throws Exception{
+		dailyService.Dailydelete(vo);
+		return "redirect:/duducalendar.do";
+	}
+
+	/* 프로젝트 목록 출력 */
+	@RequestMapping("pjlist.do")
+	public String pjlist(UserVO vo, ModelMap model,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) throws Exception {
+		List<UserVO> admin = emailService.userlist(vo);
+		model.addAttribute("userList", admin);
+
+		List<ProjectVO> pagingList = projectService.pagingList(page);
+		PageVO pagevo = projectService.pagingParam(page);
+
+		model.addAttribute("result", pagingList);
+		model.addAttribute("paging", pagevo);
+		return "dudu/pjlist";
+	}
+
+	/* 프로젝트 왼쪽 내비 */
+	@RequestMapping("projectNav.do")
+	public String projectNav() {
+		return "dudu/nav/projectNav";
+	}
+
+	@RequestMapping("test.do")
+	public String test() {
+		return "dudu/test";
+	}
+
+	@RequestMapping("leftNav.do")
+	public String leftNav() {
+		return "dudu/nav/leftNav";
+	}
+
+	@RequestMapping("topNav.do")
+	public String topNav() {
+		return "dudu/nav/topNav";
+	}
+
+	@RequestMapping("rightNav.do")
+	public String rightNav(ModelMap model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		DuduLoginVO user = (DuduLoginVO) session.getAttribute("loginMember");
+
+		List<DailyVO> daily = projectService.getDailyList(user.getEmail(), "false", null);
+		
+		model.addAttribute("dailyList", daily);
+
+		Date today = new Date();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(today);
+
+        model.addAttribute("todayDate", formattedDate);
+		
+		return "dudu/nav/rightNav";
+	}
+
+	@RequestMapping("adminmain.do")
+	public String adminmain() {
+		return "dudu/admin/adminmain";
+	}
+
+	@RequestMapping("admin.do")
+	public String admin(UserVO vo, ModelMap model,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) throws Exception {
+
+		List<UserVO> pagingList = adminService.userlistpage(page);
+		PageVO pagevo = adminService.pagingParam(page);
+
+		System.out.println("maxpage = " + pagevo.getMaxPage());
+		System.out.println("page = " + pagevo);
+
+		int count = commondao.selectOne("adminDAO.usercount");
+		int maxPage = (int) (Math.ceil((double) count / 7));
+		System.out.println("count = " + count);
+		System.out.println("maxPage = " + maxPage);
+
+		model.addAttribute("user", pagingList);
+		model.addAttribute("paging", pagevo);
+		return "dudu/admin/admin";
+	}
+
+	/* 가입 승인 */
+	@RequestMapping("adminregist.do")
+	public String adminregist(UserVO vo, HttpServletRequest request) throws Exception {
+		System.out.println("나와라 얍" + vo.getUserstatus());
+		String[] email = request.getParameterValues("useremail");
+		for (int i = 0; i < email.length; i++) {
+			vo.setUserstatus("승인");
+			vo.setUseremail(email[i]);
+			adminService.updatestatus(vo);
+		}
+		return "redirect:/admin.do";
+	}
+
+	/* 직급 변경 */
+	@RequestMapping("admintrade.do")
+	public String admintrade(UserVO vo, HttpServletRequest request) throws Exception {
+		String[] rank = request.getParameterValues("userrank");
+		String[] email = request.getParameterValues("useremail");
+
+		for (int i = 0; i < rank.length; i++) {
+			vo.setUserrank(rank[i]);
+			vo.setUseremail(email[i]);
+			adminService.traderank(vo);
+		}
+		return "redirect:/admin.do";
+	}
+
+}

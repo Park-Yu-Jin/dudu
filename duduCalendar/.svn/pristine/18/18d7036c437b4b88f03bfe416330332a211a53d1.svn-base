@@ -1,0 +1,36 @@
+package dudu.service.impL;
+
+import java.util.List;
+import java.util.HashMap;
+
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+
+import dudu.sql.CommonDAO;
+import dudu.service.ApprovalVO;
+import dudu.member.login.service.DuduLoginVO;
+import dudu.service.ApprovalService;
+
+@Service
+public class ApprovalServiceimpl implements ApprovalService {
+	
+	@Resource(name="commonDAO")
+	private CommonDAO commondao;
+	
+	@Override
+	public void appinsert(ApprovalVO vo) {
+		commondao.insert("ApprovalDAO.appinsert",vo);
+	}
+	
+	@Override
+	public List<ApprovalVO> applist(DuduLoginVO vo)throws Exception{
+		vo.setAuth((int)(vo.getAuth()));
+		List<ApprovalVO> applist = commondao.selectList("ApprovalDAO.applist",vo);
+		return applist;
+	}
+	
+	@Override
+	public ApprovalVO detailapp(int appauto) {
+		return commondao.selectOne("ApprovalDAO.detailapp",appauto);
+	}
+}

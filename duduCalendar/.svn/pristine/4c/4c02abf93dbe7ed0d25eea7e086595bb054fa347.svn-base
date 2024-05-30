@@ -1,0 +1,125 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>수정 로그</title>
+<script type="text/javascript" src="js/egovframework/com/jQuery.js"></script>
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css'/>">
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cop/smt/sdm/dept_schdule_manage.css'/>">
+<link href="https://webfontworld.github.io/TheJamsil/TheJamsil.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="<c:url value='../../css/dudu/nav.css'/>">
+<link type="text/css" rel="stylesheet" href="<c:url value='../../css/dudu/pjlist.css'/>">
+<style type="text/css">
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #333;
+    font-size: 17px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+td ul li {
+    margin-bottom: 5px;
+    display: block;
+}
+</style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:5%">Log Number</th>
+                <th style="width:15%">User Email</th>
+                <th style="width:30%">Old Values</th>
+                <th style="width:30%">New Values</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%-- Iterate over the list of project logs and display them --%>
+            <c:forEach var="log" items="${logResult}">
+                <%-- Check if log_no ends with '1', if not display the log --%>
+                <c:if test="${not fn:endsWith(log.logNo, '-1')}">
+                    <tr>
+                        <td>${log.logNo}</td>
+                        <td>${log.useremail}</td>
+                        <td>
+                            <ul>
+                                <li class="oldTitle">Title: ${log.logOldtitle}</li>
+                                <li class="oldText">Text: ${log.logOldtext}</li>
+                                <li class="oldMember">Member: ${log.logOldmember}</li>
+                                <li class="oldStart">Start Date: ${log.logOldstart}</li>
+                                <li class="oldEnd">End Date: ${log.logOldend}</li>
+                                <li class="oldColor">Color: ${log.logOldcolor}</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li class="newTitle">Title: ${log.pjtitle}</li>
+                                <li class="newText">Text: ${log.pjcnt}</li>
+                                <li class="newMember">Member: ${log.pjmember}</li>
+                                <li class="newStart">Start Date: ${log.pjstart}</li>
+                                <li class="newEnd">End Date: ${log.pjend}</li>
+                                <li class="newColor">Color: ${log.pjcolor}</li>
+                            </ul>
+                        </td>
+                        <td><fmt:formatDate value="${log.logDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+                    </tr>
+                </c:if>
+            </c:forEach>
+        </tbody>
+    </table>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Iterate through each row in the table
+        var rows = document.querySelectorAll("tbody tr");
+        rows.forEach(function(row) {
+            // Get old and new elements
+            var oldElements = row.querySelectorAll(".oldTitle, .oldText, .oldMember, .oldStart, .oldEnd, .oldColor");
+            var newElements = row.querySelectorAll(".newTitle, .newText, .newMember, .newStart, .newEnd, .newColor");
+            
+            // Iterate through each old and new element
+            oldElements.forEach(function(oldElement, index) {
+                var oldText = oldElement.textContent.trim();
+                var newText = newElements[index].textContent.trim();
+                
+                // If old and new values are different, change background color
+                if (oldText !== newText) {
+                    oldElement.style.backgroundColor = "#6fadcf";
+                    newElements[index].style.backgroundColor = "#db4455";
+                    newElements[index].style.color = "#ffffff";
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

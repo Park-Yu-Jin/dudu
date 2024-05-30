@@ -1,0 +1,158 @@
+
+3월 27, 2024 09:24:01.515 NEW SESSION
+3월 27, 2024 09:24:01.515 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+3월 27, 2024 15:09:36.872 [8396:24184:0327/150936.871:ERROR:interface_endpoint_client.cc(707)] Message 0 rejected by interface blink.mojom.WidgetHost
+3월 27, 2024 17:11:20.413 [8396:24184:0327/171120.412:ERROR:interface_endpoint_client.cc(707)] Message 0 rejected by interface blink.mojom.WidgetHost
+
+3월 28, 2024 08:45:13.905 NEW SESSION
+3월 28, 2024 08:45:13.905 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+3월 28, 2024 15:42:05.104 [23452:16416:0328/154205.103:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+3월 28, 2024 16:12:58.430 [23452:16416:0328/161258.428:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+
+3월 29, 2024 09:00:41.988 NEW SESSION
+3월 29, 2024 09:00:41.988 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+3월 29, 2024 09:41:11.615 [9464:22908:0329/094111.614:ERROR:device_event_log_impl.cc(195)] [09:41:11.614] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+3월 29, 2024 09:52:34.06 [9464:22908:0329/095234.006:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+3월 29, 2024 09:56:34.464 [9464:22908:0329/095634.464:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+3월 29, 2024 13:20:56.393 [9464:22908:0329/132056.392:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:56.669 [9464:22908:0329/132056.668:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:56.788 [9464:22908:0329/132056.788:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:56.910 [9464:22908:0329/132056.909:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.13 [9464:22908:0329/132057.012:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.146 [9464:22908:0329/132057.145:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.333 [9464:22908:0329/132057.332:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.437 [9464:22908:0329/132057.437:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.539 [9464:22908:0329/132057.538:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.643 [9464:22908:0329/132057.643:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.773 [9464:22908:0329/132057.773:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.896 [9464:22908:0329/132057.895:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:57.998 [9464:22908:0329/132057.997:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.99 [9464:22908:0329/132058.099:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.218 [9464:22908:0329/132058.217:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.319 [9464:22908:0329/132058.318:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.422 [9464:22908:0329/132058.422:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.531 [9464:22908:0329/132058.531:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.652 [9464:22908:0329/132058.652:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.760 [9464:22908:0329/132058.759:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.866 [9464:22908:0329/132058.865:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:58.979 [9464:22908:0329/132058.978:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:59.104 [9464:22908:0329/132059.104:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:20:59.271 [9464:22908:0329/132059.271:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:21:00.263 [9464:22908:0329/132100.263:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:21:00.376 [9464:22908:0329/132100.376:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+3월 29, 2024 13:21:00.526 [9464:22908:0329/132100.526:ERROR:page_load_metrics_update_dispatcher.cc(179)] Invalid first_paint 1.269 s for first_image_paint 1.263 s
+
+4월 01, 2024 08:52:54.379 NEW SESSION
+4월 01, 2024 08:52:54.379 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+4월 01, 2024 08:59:04.809 [3024:14108:0401/085904.805:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 09:33:28.834 [3024:14108:0401/093328.834:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 09:36:01.864 [3024:14108:0401/093601.864:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 09:47:52.777 [3024:14108:0401/094752.777:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 09:48:29.523 [3024:14108:0401/094829.523:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 10:21:32.866 [3024:14108:0401/102132.866:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 11:13:43.999 [3024:14108:0401/111343.998:ERROR:interface_endpoint_client.cc(707)] Message 0 rejected by interface blink.mojom.WidgetHost
+4월 01, 2024 11:20:40.385 [3024:15580:0401/112040.385:ERROR:connection_factory_impl.cc(483)] ConnectionHandler failed with net error: -2
+4월 01, 2024 11:29:39.434 [3024:14108:0401/112939.433:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 13:44:39.484 [3024:14108:0401/134439.484:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 13:49:02.611 [3024:14108:0401/134902.610:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 01, 2024 15:05:09.310 [3024:14108:0401/150509.309:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+
+4월 02, 2024 08:50:26.294 NEW SESSION
+4월 02, 2024 08:50:26.294 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+4월 02, 2024 08:58:09.896 [7360:9792:0402/085809.895:ERROR:interface_endpoint_client.cc(707)] Message 5 rejected by interface blink.mojom.WidgetHost
+4월 02, 2024 09:32:13.721 [7360:9792:0402/093213.720:ERROR:interface_endpoint_client.cc(707)] Message 0 rejected by interface blink.mojom.WidgetHost
+4월 02, 2024 12:12:45.481 [7360:652:0402/121245.480:ERROR:connection_factory_impl.cc(483)] ConnectionHandler failed with net error: -2
+4월 02, 2024 12:45:41.762 [7360:9792:0402/124541.761:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 02, 2024 12:58:33.966 [7360:3012:0402/125833.966:ERROR:cert_verify_proc_builtin.cc(878)] CertVerifyProcBuiltin for 192.168.215.12 failed:
+4월 02, 2024 12:58:33.967 ----- Certificate i=0 (CN=cyber-aegis.org) -----
+4월 02, 2024 12:58:33.967 ERROR: Time is after notAfter
+4월 02, 2024 12:58:33.969 
+4월 02, 2024 12:58:33.970 
+4월 02, 2024 13:30:59.42 [7360:3012:0402/133059.042:ERROR:cert_verify_proc_builtin.cc(878)] CertVerifyProcBuiltin for 192.168.215.12 failed:
+4월 02, 2024 13:30:59.42 ----- Certificate i=0 (CN=cyber-aegis.org) -----
+4월 02, 2024 13:30:59.43 ERROR: Time is after notAfter
+4월 02, 2024 13:30:59.43 
+4월 02, 2024 13:30:59.43 
+4월 02, 2024 13:57:19.827 [7360:9792:0402/135719.826:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 02, 2024 14:15:14.458 [7360:9792:0402/141514.458:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 02, 2024 14:21:41.261 [7360:9792:0402/142141.260:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 02, 2024 16:42:12.743 [7360:652:0402/164212.743:ERROR:mcs_client.cc(749)] Received close command, resetting connection.
+
+4월 03, 2024 08:53:58.481 NEW SESSION
+4월 03, 2024 08:53:58.481 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+4월 03, 2024 09:49:23.526 [13244:4580:0403/094923.525:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 03, 2024 09:53:03.788 [13244:2708:0403/095303.788:ERROR:cert_verify_proc_builtin.cc(878)] CertVerifyProcBuiltin for 192.168.215.12 failed:
+4월 03, 2024 09:53:03.789 ----- Certificate i=0 (CN=cyber-aegis.org) -----
+4월 03, 2024 09:53:03.789 ERROR: Time is after notAfter
+4월 03, 2024 09:53:03.789 
+4월 03, 2024 09:53:03.790 
+4월 03, 2024 10:13:27.178 [13244:4580:0403/101327.178:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 03, 2024 10:15:37.108 [13244:4580:0403/101537.108:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 03, 2024 10:30:34.546 [13244:2468:0403/103034.546:ERROR:cert_verify_proc_builtin.cc(878)] CertVerifyProcBuiltin for 192.168.215.12 failed:
+4월 03, 2024 10:30:34.546 ----- Certificate i=0 (CN=cyber-aegis.org) -----
+4월 03, 2024 10:30:34.547 ERROR: Time is after notAfter
+4월 03, 2024 10:30:34.547 
+4월 03, 2024 10:30:34.548 
+4월 03, 2024 11:01:50.59 [13244:2708:0403/110150.058:ERROR:cert_verify_proc_builtin.cc(878)] CertVerifyProcBuiltin for 192.168.215.12 failed:
+4월 03, 2024 11:01:50.59 ----- Certificate i=0 (CN=cyber-aegis.org) -----
+4월 03, 2024 11:01:50.61 ERROR: Time is after notAfter
+4월 03, 2024 11:01:50.61 
+4월 03, 2024 11:01:50.62 
+4월 03, 2024 13:26:10.611 [13244:4580:0403/132610.611:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 03, 2024 16:21:59.260 [13244:4580:0403/162159.260:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 03, 2024 16:59:37.37 [13244:4580:0403/165937.037:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Unsupported URL scheme"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:05:19.713 [13244:4580:0403/170519.712:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:05:35.374 [13244:4580:0403/170535.374:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:05:56.574 [13244:4580:0403/170556.573:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:06:38.127 [13244:4580:0403/170638.126:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:10:27.897 [13244:4580:0403/171027.896:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:23:59.849 [13244:4580:0403/172359.848:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:24:57.650 [13244:4580:0403/172457.649:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:25:06.749 [13244:4580:0403/172506.748:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:28:25.332 [13244:4580:0403/172825.331:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:28:52.421 [13244:4580:0403/172852.421:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:30:04.185 [13244:4580:0403/173004.185:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:33:46.343 [13244:4580:0403/173346.343:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 03, 2024 17:33:54.974 [13244:4580:0403/173354.973:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+
+4월 05, 2024 16:27:20.167 NEW SESSION
+4월 05, 2024 16:27:20.167 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+4월 05, 2024 16:38:33.173 [24560:11348:0405/163833.172:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 05, 2024 16:38:54.144 [24560:11348:0405/163854.144:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 05, 2024 16:39:01.961 [24560:11348:0405/163901.960:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 05, 2024 16:41:25.998 [24560:11348:0405/164125.998:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 05, 2024 16:42:57.929 [24560:11348:0405/164257.929:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 05, 2024 16:45:51.710 [24560:11348:0405/164551.709:ERROR:interface_endpoint_client.cc(707)] Message 0 rejected by interface blink.mojom.WidgetHost
+
+4월 08, 2024 08:44:27.116 NEW SESSION
+4월 08, 2024 08:44:27.116 INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+4월 08, 2024 08:56:58.100 [16856:6416:0408/085658.099:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 09:07:10.934 [16856:6416:0408/090710.933:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 09:24:56.525 [16856:6416:0408/092456.525:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 09:29:12.118 [16856:6416:0408/092912.117:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 08, 2024 09:29:12.118 [16856:6416:0408/092912.117:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Unsupported URL scheme"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 08, 2024 10:29:23.532 [16856:6416:0408/102923.531:ERROR:interface_endpoint_client.cc(707)] Message 0 rejected by interface blink.mojom.WidgetHost
+4월 08, 2024 11:21:50.291 [16856:6416:0408/112150.290:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Frame not found"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 08, 2024 14:51:21.99 [16856:6416:0408/145121.098:ERROR:interface_endpoint_client.cc(707)] Message 1 rejected by interface blink.mojom.WidgetHost
+4월 08, 2024 16:24:51.656 [16856:6416:0408/162451.655:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 16:33:45.993 [16856:6416:0408/163345.993:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 16:36:55.708 [16856:6416:0408/163655.707:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 16:39:37.470 [16856:6416:0408/163937.470:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 16:41:24.547 [16856:6416:0408/164124.547:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 16:43:35.752 [16856:6416:0408/164335.751:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 16:55:01.102 [16856:6416:0408/165501.102:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:06:23.581 [16856:6416:0408/170623.580:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:10:45.622 [16856:6416:0408/171045.622:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:15:24.731 [16856:6416:0408/171524.731:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:17:15.810 [16856:6416:0408/171715.809:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:19:14.962 [16856:6416:0408/171914.962:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:21:21.748 [16856:6416:0408/172121.747:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:26:18.603 [16856:6416:0408/172618.603:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:45:04.675 [16856:6416:0408/174504.675:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Unsupported URL scheme"}", source: devtools://devtools/bundled/devtools-frontend/front_end/core/protocol_client/protocol_client.js (1)
+4월 08, 2024 17:47:25.383 [16856:6416:0408/174725.380:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:47:37.207 [16856:6416:0408/174737.206:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:50:49.735 [16856:6416:0408/175049.734:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+4월 08, 2024 17:52:22.756 [16856:6416:0408/175222.756:ERROR:CONSOLE(0)] "TypeError: Cannot read properties of null (reading '__widget')", source:  (0)
+
+5월 30, 2024 08:59:27.569 NEW SESSION
+5월 30, 2024 08:59:27.569 Created TensorFlow Lite XNNPACK delegate for CPU.

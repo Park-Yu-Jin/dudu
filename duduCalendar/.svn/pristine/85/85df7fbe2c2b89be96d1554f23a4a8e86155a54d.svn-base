@@ -1,0 +1,292 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="dudu.HolidayVO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://webfontworld.github.io/TheJamsil/TheJamsil.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script
+	src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+	<link href="../../css/dudu/duducalendar.css" rel="stylesheet">
+	<style>
+		form {
+	display: flex;
+	height: 100%;
+	align-items: center;
+}
+
+	.pjfrom{
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 50px 50px;
+		height: 100%;
+		width: 350px;
+		flex-direction: column;
+	}
+
+	.pjinput{
+		width:90%;
+		padding: 12px 15px;
+		border: none;
+		margin: 8px 0;
+		background-color: #eee;
+		overflow: hidden;
+	}
+	input[type=text]{
+		border:none;
+	}
+	
+	.modal{
+		position: absolute;
+		display:none;
+		justify-content: center;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background-color: rgba(0,0,0,0.4);
+		z-index: 50;
+		font-family:"TheJamsil";
+	}
+	
+	.modal_body{
+		position:absolute;
+		top:50%;
+		left: 50%;
+		width: 400px;
+		height: 600px;
+		padding: 40px;
+		text-align: center;
+		bacground-color: rgb(255,255,255);
+		border-radius: 10px;
+		box-shadow: 0 2px 3px 0 rgba(34,36,38,0.15);
+		transform: translateX(-50%) translateY(-50%);
+		
+	}
+	</style>
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+		var leftFrame = window.parent.frames['_left'];
+		var holidayCheckbox = leftFrame.document.getElementById('holidayFilter');
+		
+        var calendarEl = document.getElementById('calendar');
+        var today = new Date(); // 오늘 날짜를 얻음
+        var initial = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+            <%if (request.getParameter("year") != null) {%>
+        var year = <%=request.getParameter("year")%>;
+        var month = '<%=request.getParameter("month")%>';
+        initial = year + "-" + month + "-01";
+		<%}%>
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'ko',
+            height: 800,
+            initialDate: initial,
+            nowIndicator: true,
+            allDayText: '종일',
+            views: {
+                timeGridWeek: {
+                    dayHeaderFormat: { weekday: 'narrow', day: 'numeric' },
+                    dayHeaderContent: function(arg) {
+                        var date = arg.date.getDate();
+                        var weekday = arg.date.toLocaleDateString('ko-KR', { weekday: 'short' });
+                        return date + ' ' + weekday;
+                    }
+                }
+            },
+            headerToolbar: {
+                start: "title",
+                center: "",
+                end: 'dayGridMonth,timeGridWeek prev,next,today'
+            },
+            titleFormat: { year: 'numeric', month: 'short'},
+            buttonText: {
+                today: '오늘',
+                month: '월',
+                week: '주',
+            },
+            eventRender: function(info) {
+                var eventEl = info.el; // 이벤트의 DOM 요소
+                var event = info.event; // 이벤트 객체
+
+                // 공휴일 이벤트인 경우에만 처리
+                if (event.extendedProps.className.includes('holiday')) {
+                    // 이벤트가 포함된 날짜의 일자 요소를 찾음
+                    var dayNumberEl = eventEl.closest('.fc-daygrid-day-frame').querySelector('.fc-daygrid-day-number');
+                    if (dayNumberEl) {
+                        // 일자 요소의 텍스트 색상을 빨간색으로 변경
+                        dayNumberEl.style.color = 'red';
+                    }
+                }
+            },
+            dayCellContent: function(info) {
+                var number = document.createElement("a");
+                number.classList.add("fc-daygrid-day-number");
+                number.innerHTML = info.dayNumberText.replace("일", "").replace("日", "");
+                if (info.view.type === "dayGridMonth") {
+                    return {
+                        html: number.outerHTML
+                    };
+                }
+                return {
+                    domNodes: []
+                };
+            }
+        });
+        
+     // 체크박스의 변경 이벤트에 대한 리스너 추가
+        holidayCheckbox.addEventListener('change', function() {
+        	calendar.removeAllEvents();
+            addEventsToCalendar();
+        });
+        
+     // 캘린더에 이벤트 추가 함수
+        function addEventsToCalendar() {
+            <%List<HolidayVO> holidayList = (List<HolidayVO>) request.getAttribute("holidayList");%>
+            <%if (holidayList != null) {%>
+                <%for (HolidayVO vo : holidayList) {%>
+                    calendar.addEvent({
+                        title: '<%=vo.getHolidayName()%>',
+                        start: '<%=vo.getHolidayStart()%>',
+                        end: '<%=vo.getHolidayEnd()%>',
+                        color: '#ff6363',
+                        display: holidayCheckbox.checked ? 'block' : 'none',
+                        className: 'holiday'
+                    });
+                <%}%>
+            <%}%>
+            calendar.render();
+        }
+        addEventsToCalendar();
+    });
+
+</script>
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="calendar"></div>
+	<!-- 프로젝트 등록 -->
+		<div id="modal1" class="modal">		
+		<div class="modal_body" style="text-align:center;">
+		<form class="pjfrom" action="pjinsert.do" name="sub2" method="POST">
+		    <div style="width:100%; display:inline-block;">
+		   		<input class="pjinput" style="float:left; width:15%; height:39px; padding:unset;" name="pjcolor" type="color">
+		        <input style="width:68%; float:right;" name="pjtitle" class="pjinput" type="text" placeholder="프로젝트 제목">
+		    </div>
+		    <div style="width:100%">
+		        <input style="width:140px" name="pjstart" class="pjinput" type="date" placeholder="시작날짜">
+		        <input style="width:140px" name="pjend" class="pjinput" type="date" placeholder="종료날짜">
+		    </div>
+		    <div style="width:100%">
+
+		    </div>
+		    <div style="display:flex; width:100%">
+		    <div style="width:50%">
+		    <select id="username" style="float:left; height:100%;" name="username">
+		    	<c:forEach items="${user}" var="userlist">
+		    		<option value="${userlist.username}">${userlist.username}${userlist.userdepartment}</option>
+		    	</c:forEach>
+		    </select>
+				<input id="add" style="margin-bottom:7px; font-size:12pt; display:flex" type="button" value="추가">
+		    	<input id="remove" style="font-size:12pt; display:flex" type="button" value="삭제">
+		    	   
+		    </div>
+		    <div id="member" style="width:50%">
+		    </div>
+		    </div>
+		    <div style="width:100%">
+			<textarea name="pjcnt" class="pjinput" type="text" placeholder="프로젝트 내용" style="height:200px;"></textarea>
+		    </div>
+		    <div style="width:100%">
+		        <input style="width:100%;" class="pjinput" type="button" value="등록하기" id="pjregist">
+		        <input style="width:100%;" class="pjinput" type="button" id="close" value="닫기">
+		    </div>
+		</div>
+		<input type="hidden" name="useremail" value="${sessionScope.loginMember.email }">
+		<input type="hidden" name="pjdm" value="${sessionScope.loginMember.orgnztNm }">
+		</form>
+	</div>
+	
+	<!-- 일일 업무 등록 -->
+	<div id="modal2" class="modal">		
+		<div class="modal_body" style="text-align:center;">
+		<form class="pjfrom" action="dailyinsert.do" name="sub3" method="POST">
+		    <div style="width:100%; display:inline-block;">
+		   		<input class="pjinput" style="float:left; width:15%; height:39px; padding:unset;" name="dacolor" type="color">
+		        <input style="width:68%; float:right;" name="datitle" class="pjinput" type="text" placeholder="일일업무 제목">
+		    </div>
+
+		    <div style="width:100%">
+			<textarea name="dacnt" class="pjinput" type="text" placeholder="일일업무 내용" style="height:200px;" ></textarea>
+		    </div>
+		    <div>
+		    	<select name="dafinish">
+		    		<option value="0">작업중</option>
+		    		<option value="1">작업완료</option>
+		    	</select>
+		    	<input type="text" name="daimp" calss ="pjinput" placeholder="작업 중요도(숫자로 표기)">
+		    </div>
+		    <div style="width:100%">
+		        <input style="width:100%;" class="pjinput" type="button" value="등록하기" id="dailyregist">
+		        <input style="width:100%;" class="pjinput" type="button" id="closedaily" value="닫기">
+		    </div>
+		</div>
+		<input type="hidden" name="useremail" value="${sessionScope.loginMember.email}">
+		<input type="hidden" name="pjno" value="1">
+		</form>
+	</div>
+</body>
+</html>
+<script>
+
+$('#pjregist').click(function(){
+	$('input:checkbox[name="pjmember"]').prop("checked",true);
+	document.sub2.submit();
+})
+
+$('#dailyregist').click(function(){
+	document.sub3.submit();
+})
+	
+	function openProject(){
+		var project = document.getElementById("modal1");		
+		project.style.display = "inline-block";
+	}
+	
+	function openDaily(){
+		var daily = document.getElementById("modal2");
+		daily.style.display = "inline-block";
+	}
+	
+	var closeproject = document.getElementById("close");
+	closeproject.onclick = function (){
+		var project = document.getElementById("modal1");
+		project.style.display = "none";
+
+	}
+	document.getElementById("closedaily").onclick = function(){
+		
+		var daily = document.getElementById("modal2");
+		daily.style.display = "none";
+	}
+	document.getElementById("add").onclick = function(){
+		var add = $("#username option:selected").text();
+		$('#member').append("<label style='float:right'><input name='pjmember' type='checkbox' value="+add+">"+add+"</label>");
+	
+	}
+	
+	document.getElementById("remove").onclick = function(){
+		$("input:checkbox[name='pjmember']").each(function(){
+			if($(this).is(":checked")==true){
+				$(this).parent().remove();
+			}	
+		})
+	}
+</script>

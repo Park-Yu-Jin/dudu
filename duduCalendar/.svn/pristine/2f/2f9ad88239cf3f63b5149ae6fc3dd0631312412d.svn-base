@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="projectLogsDAO">
+	<resultMap id="projectLogs" type="dudu.project.service.ProjectLogsVO">
+		<result property="logNo" column="log_no" />
+		<result property="logPNo" column="log_p_no" />
+		<result property="userEmail" column="user_email" />
+		<result property="logOldtitle" column="log_oldtitle" />
+		<result property="logNewtitle" column="log_newtitle" />
+		<result property="logOldtext" column="log_oldtext" />
+		<result property="logNewtext" column="log_newtext" />
+		<result property="logOldmember" column="log_oldmember" />
+		<result property="logNewmember" column="log_newmember" />
+		<result property="logOldstart" column="log_oldstart" />
+		<result property="logNewstart" column="log_newstart" />
+		<result property="logOldend" column="log_oldend" />
+		<result property="logNewend" column="log_newend" />
+		<result property="logDate" column="log_date" />
+		<result property="logOldcolor" column="log_oldcolor" />
+		<result property="logNewcolor" column="log_newcolor" />
+	</resultMap>
+
+	<insert id="logInsert">
+		INSERT INTO project_logs (
+			LOG_NO, LOG_P_NO, USER_EMAIL, LOG_DATE,
+			LOG_OLDTITLE ,LOG_OLDTEXT, LOG_OLDMEMBER, LOG_OLDSTART, LOG_OLDEND, LOG_OLDCOLOR)
+		VALUES (
+			CONCAT('p', (SELECT project_no FROM project_schedule WHERE project_no = #{pjno}),
+			'-',
+			(SELECT IFNULL(MAX(SUBSTRING(LOG_NO, LENGTH(#{pjno}) + 3)), 0) + 1
+			FROM project_logs WHERE LOG_P_NO = #{pjno})),
+			#{pjno},
+			#{useremail},
+			now(),
+			#{pjtitle},
+			#{pjcnt},
+			#{pjmember},
+			#{pjstart},
+			#{pjend},
+			#{pjcolor}
+		)
+	</insert>
+	
+	<select id="searchNo" parameterType="dudu.service.ProjectVO" resultMap="projectLogs">
+		select * from project_logs where log_p_no=#{pjno}
+	</select>
+	
+	<select id="logList" parameterType="dudu.project.service.ProjectLogsVO" resultMap="projectLogs">
+		SELECT * FROM project_logs WHERE log_p_no=#{pjno}
+	</select>
+	
+	<update id="logUpdate" parameterType="dudu.project.service.ProjectLogsVO">
+		UPDATE PROJECT_LOGS
+	</update>
+</mapper>

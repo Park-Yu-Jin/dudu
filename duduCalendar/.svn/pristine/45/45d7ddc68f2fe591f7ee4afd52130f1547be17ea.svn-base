@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="joinDAO">
+
+	<resultMap id="joinVO" type="dudu.member.join.service.JoinVO">
+		<result property="applcntEmailAdres" column="user_email" />
+		<result property="entrprsMberPassword" column="user_pw" />
+		<result property="cmpnyNm" column="user_name" />
+		<result property="orgnztNm" column="user_department" />
+		<result property="position" column="user_rank" />
+		<result property="auth" column="user_role" />
+		<result property="entrprsMberSttus" column="user_status" />
+	</resultMap>
+	
+	<insert id="duduJoin" parameterType="dudu.member.join.service.JoinVO">
+		INSERT INTO user
+		VALUES(#{applcntEmailAdres}, #{entrprsMberPassword}, #{cmpnyNm},
+		#{orgnztNm}, #{position}, 0, '미승인')
+	</insert>
+	
+	<update id="updatePassword" parameterType="dudu.member.join.service.JoinVO">
+		UPDATE USER SET user_pw = #{entrprsMberPassword} WHERE user_email = #{applcntEmailAdres}
+	</update>
+	
+	<select id="getMember">
+		select * from user where user_email = #{applcntEmailAdres}
+	</select>
+	
+</mapper>

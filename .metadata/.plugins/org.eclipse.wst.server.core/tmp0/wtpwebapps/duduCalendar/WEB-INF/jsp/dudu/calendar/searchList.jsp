@@ -1,0 +1,660 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://webfontworld.github.io/TheJamsil/TheJamsil.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<link href="../../css/dudu/searchList.css" rel="stylesheet">
+</head>
+<body>
+
+	<button type="button" onclick="backToCalendar()" class="back">
+		<span class="material-symbols-outlined">arrow_back</span>
+	</button>
+	<div class="projectList">
+		<div class="pjlistTitle">프로젝트</div>
+		<c:if test="${not empty projectList}">
+			<c:forEach items="${projectList }" var="project">
+				<div class="listdiv" onclick="opendd('${project.pjno}')">
+					<div class="date">
+						<div>${project.pjstart}</div>
+						<div>~ ${project.pjend}</div>
+					</div>
+					<div class="color" style="background-color: ${project.pjcolor};"></div>
+					<div class="title">${project.pjtitle}</div>
+					<div class="content">${project.pjcnt }</div>
+				</div>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty projectList}">
+			<div class="listdiv">
+				<div>검색 결과와 일치하는 프로젝트가 존재하지 않습니다</div>
+			</div>
+		</c:if>
+	</div>
+
+	<div class="dailyList">
+		<div class="dalistTitle">일일업무</div>
+		<c:if test="${not empty dailyList}">
+			<c:forEach items="${dailyList }" var="daily">
+				<div class="listdiv" onclick="openDailyInfo(${daily.dailyno})">
+					<c:set var="formattedDate"
+						value="${fn:substring(daily.dadate, 0, 16)}" />
+					<div>${formattedDate}</div>
+					<div class="color" style="background-color: ${daily.dacolor};"></div>
+					<div class="dailytitle">${daily.datitle}</div>
+					<div class="content">${daily.dacnt }</div>
+				</div>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty dailyList}">
+			<div class="listdiv">
+				<div>검색 결과와 일치하는 일일업무가 존재하지 않습니다</div>
+			</div>
+		</c:if>
+	</div>
+	
+	<!-- 프로젝트 등록 -->
+	<div id="modal1" class="modal">		
+		<div class="modal_body">
+		<form class="pjfrom" action="pjinsert.do" name="sub2" method="POST">
+		<div style="width:100%; margin:40px 20px;">
+			<div class="modaltitle">
+				<div style="font-size:large; color:#2556a3;">프로젝트 등록</div>
+				<div style="font-size:9pt;margin-left: 5px;">신규 프로젝트를 등록하세요</div>
+				<div style="justify-content:flex-end; width:200px;"><a href="#this" id="close" class="aa">X</a></div>
+			</div>
+			<div class="pjinfo">* 프로젝트 정보를 입력하세요</div>
+			<table>
+				<tbody>
+					<tr>
+						<td>프로젝트 명</td>
+						<td class="tableborder" style="text-align:center;"><input style="margin=0;" type="color" name="pjcolor" id="deco"></td>
+						<td class="tableborder"><input class="pjtitle" type="text" maxlength="50" name="pjtitle" placeholder="프로젝트 명"></td>
+					</tr>
+					<tr>
+						<td>프로젝트 기간</td>
+						<td class="tableborder" colspan="2">
+						<input type="date" name="pjstart">~<input type="date" name="pjend">
+						</td>
+					</tr>
+					<tr>
+						<td>프로젝트 내용</td>
+						<td class="tableborder" colspan="2"><textarea class="pjcnt" name="pjcnt" maxlength="1000"></textarea></td>
+					</tr>
+					<tr>
+						<td style="padding-top: 10px;" colspan="3">참가자 선택</td>
+					</tr>
+					<tr style="border:none;">
+					<td colspan="3">
+						<div class="pjmember">
+							<div class="pjuser" style="border:none; width:160px;">
+								<select id="username">
+									<c:forEach items="${user}" var="user">
+										<option value="${user.username}">${user.username}(${user.userdepartment})</option>
+									</c:forEach>
+								</select>
+							</div>
+							<div class="userbtn">
+								<input type="button" id="add" value="추가">
+								<input type="button" id="remove" value="삭제">
+							</div>
+							<div id="member" class="pjuser" style="overflow-y:scroll;padding: 10px;"></div>
+						</div>
+					</td>
+					</tr>
+					<tr style="height:100px; border:none">
+						<td colspan="3">
+							<div class="pjfoot">
+								<div>
+									<input type="button" id="pjregist" value="등록">
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<input type="hidden" name="useremail" value="${sessionScope.loginMember.email }">
+		<input type="hidden" name="username" value="${sessionScope.loginMember.name }">
+		<input type="hidden" name="pjdm" value="${sessionScope.loginMember.orgnztNm }">
+		<input type="hidden" name="dudu" value="calendar">
+		</form>
+		</div>
+	</div>
+	
+	<!-- 일일 업무 등록 -->
+	<div id="modal2" class="modal">		
+		<div class="modal_body" style="text-align:center; height: 550px;">
+		<form class="pjfrom" action="dailyinsert.do" name="sub3" method="POST">
+    		<div style="width:100%; margin:20px;">
+				<div class="modaltitle">
+					<div style="font-size:large; color:#2556a3;">일일 업무 등록</div>
+					<div style="font-size:9pt;margin-left: 5px;">신규 일일 업무를 등록하세요</div>
+					
+				</div>
+				<div class="pjinfo">* 일일 업무 정보를 입력하세요</div>
+				<table>
+					<tr>
+						<td>일일 업무 명</td>
+						<td class="tableborder" style="text-align:center;"><input style="margin=0;" type="color" name="dacolor" id="deco"></td>
+						<td class="tableborder"><input class="pjtitle" type="text" maxlength="50" name="datitle" placeholder="일일 업무 명"></td>
+					</tr>
+					<tr>
+						<td>일일 업무 내용</td>
+						<td class="tableborder" colspan="2"><textarea class="pjcnt" name="dacnt" maxlength="1000" placeholder="일일 업무 내용"></textarea></td>
+					</tr>
+					<tr>
+						<td>프로젝트 선택</td>
+						<td class="tableborder" colspan="2">
+						<div>
+							<div style="display:flex; justify-content:center;">
+								<select style="width: 200px;height: 40px;font-size: 12pt;margin: 5px;" id="daproject" name="daproject">
+								<c:forEach items="${project}" var="project">
+									<option value="${project.pjno}">${project.pjtitle}</option>
+								</c:forEach>
+							</select>
+							</div>
+						</div>
+						</td>
+					</tr>
+					<tr>
+						<td>작업 상태</td>
+						<td class="tableborder" colspan="2">
+							<div>
+								<div style="display:flex; justify-content:center;">
+									<select style="width: 200px;height: 40px;font-size: 12pt;margin: 5px;" name="dafinish">
+										<option value="0">작업중</option>
+										<option value="1">작업 완료</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr style="border-bottom: 1px solid #d3d3d3;">
+						<td>작업 중요도</td>
+						<td class="tableborder" colspan="2">
+							<div>
+								<div style="display:flex; justify-content:center;">
+									<select style="width: 200px;height: 40px;font-size: 12pt;margin: 5px;" name="daimp">
+			    						<option value=1>1</option>
+							    		<option value=2>2</option>
+							    		<option value=3>3</option>
+							    		<option value=4>4</option>
+							    		<option value=5>5</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr style="height:150px; border:none">
+						<td colspan="3">
+							<div class="pjfoot">
+								<div>
+									<input type="button" id="dailyregist" value="등록">
+								</div>
+								<div>
+									<input type="button" id="closedaily" value="닫기">
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		
+		<input type="hidden" name="useremail" value="${sessionScope.loginMember.email}">
+		<input type="hidden" name="username" value="${sessionScope.loginMember.name }">
+		<input type="hidden" name="pjno" id="pjno">
+		<input type="hidden" name="dudu" value="calendar">
+		</form>
+		</div>
+	</div>
+	
+	<!-- 프로젝트 상세보기 -->
+	<c:forEach items="${projectList}" var="modal">
+		<div id="pj_${modal.pjno}" class="modal">
+			<div class="modal_body" style="text-align:center;">
+			<form class="pjfrom" id="${modal.pjno}" name="${modal.pjno}" method="POST">
+				<div style="width:100%; margin:20px;">
+					<div class="modaltitle">
+						<div style="font-size:large; color:#2556a3">프로젝트 정보</div>
+						<div style="justify-content:flex-end; width:345px;"><a href="#this" class="aa" onclick="closedd('${modal.pjno}')">X</a></div>
+					</div>
+					<div class="pjinfo">* 프로젝트 정보입니다.</div>
+					<table>
+					<tbody>
+						<tr>
+							<td>프로젝트 명</td>
+							<td class="tableborder" style="text-align:center;"><input style="margin=0;" type="color" name="pjcolor" id="deco" value="${modal.pjcolor}"></td>
+							<td class="tableborder"><input  id="pjtitle_${modal.pjno}" class="pjtitle" type="text" maxlength="50" name="pjtitle" value="${modal.pjtitle}"></td>
+						</tr>
+						<tr>
+							<td>프로젝트 기간</td>
+							<td class="tableborder" colspan="2">
+							<input id="pjstart_${modal.pjno}" type="date" name="pjstart" value="${modal.pjstart}">~<input id="pjend_${modal.pjno}" type="date" name="pjend" value="${modal.pjend}">
+							</td>
+						</tr>
+						<tr>
+							<td>프로젝트 내용</td>
+							<td class="tableborder" colspan="2"><textarea id="pjcnt2" class="pjcnt" name="pjcnt" maxlength="1000">${modal.pjcnt}</textarea></td>
+						</tr>
+						<tr>
+							<td style="padding-top: 10px;" colspan="3">참가자 선택</td>
+						</tr>
+						<tr style="border:none;">
+						<td colspan="3">
+							<div class="pjmember">
+								<div id="seldiv_${modal.pjno}" class="pjuser" style="border:none; width:160px; padding: 0;">
+									<select id="username_${modal.pjno}">
+										<c:forEach items="${user}" var="user">
+											<option value="${user.username}">${user.username}(${user.userdepartment})</option>
+										</c:forEach>
+									</select>
+								</div>
+								<div class="userbtn">
+									<input type="button" id="ad_${modal.pjno}" value="추가" onclick="add('${modal.pjno}')">
+									<input type="button" id="rm_${modal.pjno}" value="삭제" onclick="drop('${modal.pjno}')">
+								</div>
+								<div id="member_${modal.pjno}" class="pjuser" style="overflow-y:scroll;">
+									<c:forEach items="${modal.pjmember}" var="mem">
+							    		<label style="font-size:9pt;display: flex;align-items: center;"><input id="pjmember_${modal.pjno}" name="pjmember" type='checkbox' value="${mem}">${mem}</label>
+						    		</c:forEach>
+								</div>
+							</div>
+						</td>
+						</tr>
+						<tr style="height:150px; border:none">
+							<td colspan="3">
+								<div class="pjfoot">
+								<c:if test="${sessionScope.loginMember.auth >= '3' }">
+									<div>
+										<input type="button" id="up_${modal.pjno}" value="수정" onclick="updatedd('${modal.pjno}')">
+									</div>
+									</c:if>
+									<c:if test="${modal.pjischange eq 1 }">
+										<div>
+											<input type="button" onclick="logdd('${modal.pjno}')" value="로그 확인">
+										</div>
+									</c:if>
+									<c:if test="${sessionScope.loginMember.auth >= '3' }">
+									<div>
+										<input type="button" onclick="deletedd('${modal.pjno}')" id="de_${modal.pjno}" value="삭제">
+									</div>
+									</c:if>
+									<div>
+										<input type="button" onclick="opendailydd('${modal.pjno}')" value="일일업무">
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			<input type="hidden" name="useremail" value="${sessionScope.loginMember.email}">
+			<input type="hidden" name="pjno" value="${modal.pjno}">
+			<input type="hidden" name="dudu" value="calendar">
+			</form>
+			</div>
+		</div>	
+	</c:forEach>
+	
+	<!-- 일일업무 상세보기 -->
+	<c:forEach items="${dailyList}" var="daily">
+		<div id="da_${daily.dailyno}" class="modal">		
+		<div class="modal_body" style="text-align:center;">
+		<form class="pjfrom" id="${daily.dailyno}" method="POST">
+			<div style="width:100%; margin:20px;">
+				<div class="modaltitle">
+					<div style="font-size:large; color:#2556a3;">일일 업무 정보</div>
+				</div>
+				<div class="pjinfo">* 일일 업무 정보입니다</div>
+				<table>
+					<tr>
+						<td>일일 업무 명</td>
+						<td class="tableborder" style="text-align:center;"><input style="margin=0;" type="color" name="dacolor" value="${daily.dacolor}"  id="deco"></td>
+						<td class="tableborder"><input id="datitle_${daily.dailyno}" class="pjtitle" type="text" maxlength="50" name="datitle" placeholder="일일 업무 명" value="${daily.datitle}"></td>
+					</tr>
+					<tr>
+						<td>일일업무 내용</td>
+						<td class="tableborder" colspan="2"><textarea id="dacnt_${daily.dailyno}" class="pjcnt" name="dacnt" maxlength="1000" placeholder="일일 업무 내용">${daily.dacnt}</textarea></td>
+					</tr>
+					<tr>
+						<td>프로젝트 선택</td>
+						<td class="tableborder" colspan="2">
+						<div>
+							<div style="display:flex; justify-content:center;">
+								<select style="width: 200px;height: 40px;font-size: 12pt;margin: 5px;" name="daproject" id="daproject_${daily.dailyno}">
+								<c:set var="title" value="${daily.pjtitle}"/>
+								<c:forEach items="${project}" var="project">
+									<option value="${project.pjno}" ${title == project.pjtitle ? 'selected':''}>${project.pjtitle}</option>
+								</c:forEach>
+							</select>
+							</div>
+						</div>
+						</td>
+					</tr>
+					<tr>
+						<td>작업 상태</td>
+						<td class="tableborder" colspan="2">
+							<div>
+								<div style="display:flex; justify-content:center;">
+									<select style="width: 200px;height: 40px;font-size: 12pt;margin: 5px;" name="dafinish" id="dafinish_${daily.dailyno}">
+										<option value="0">작업중</option>
+										<option value="1">작업 완료</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr style="border-bottom: 1px solid #d3d3d3;">
+						<td>작업 중요도</td>
+						<td class="tableborder" colspan="2">
+							<div>
+								<div style="display:flex; justify-content:center;">
+								<c:set var="imp" value="${daily.daimp}"/>
+									<select style="width: 200px;height: 40px;font-size: 12pt;margin: 5px;" name="daimp" id="daimp_${daily.dailyno}">
+			    						<option value=1 ${imp == '1'?'selected':''}>1</option>
+							    		<option value=2 ${imp == '2'?'selected':''}>2</option>
+							    		<option value=3 ${imp == '3'?'selected':''}>3</option>
+							    		<option value=4 ${imp == '4'?'selected':''}>4</option>
+							    		<option value=5 ${imp == '5'?'selected':''}>5</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr style="height:150px; border:none">
+						<td colspan="3">
+							<div class="pjfoot">
+								<div>
+									<input type="button" value="수정" onclick="dailyupdate('${daily.dailyno}')">
+								</div>
+								<div>
+									<input type="button" onclick="dailydelete('${daily.dailyno}')" value="삭제">
+								</div>
+								<div>
+									<input type="button" onclick="dailyclose('${daily.dailyno}')" value="닫기">
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		
+		<input type="hidden" name="useremail" value="${sessionScope.loginMember.email}">
+		<input type="hidden" name="username" value="${sessionScope.loginMember.name }">
+		<input type="hidden" name="dailyno" value="${daily.dailyno}">
+		<input type="hidden" name="pjno" id="pjno_${daily.dailyno}">
+		
+		</form>
+		</div>
+	</div>
+	</c:forEach>
+	
+<script type="text/javascript">
+function backToCalendar(){
+	window.parent.frames['_calendar'].location.replace("duducalendar.do");
+}
+
+<c:forEach items="${projectList}" var="btn">
+if("${sessionScope.loginMember.auth}" >='3'){
+	$('#up_${btn.pjno}').show();
+	$('#de_${btn.pjno}').show();
+	$('#ad_${btn.pjno}').show();
+	$('#rm_${btn.pjno}').show();
+	$('#seldiv_${btn.pjno}').show();
+}
+else{
+	$('#up_${btn.pjno}').hide();
+	$('#de_${btn.pjno}').hide();
+	$('#ad_${btn.pjno}').hide();
+	$('#rm_${btn.pjno}').hide();
+	$('#seldiv_${btn.pjno}').hide();
+}
+</c:forEach>
+
+$('#pjregist').click(function(){
+	var form = document.forms.namedItem("sub2");
+	var formData = new FormData(form);
+	var pjmember = $('#pjmember').attr("value");
+	console.log("pjmember = "+pjmember);
+	formData.append("pjmember",pjmember);
+	for(var pair of formData.entries()){
+		console.log(pair[0] +':'+pair[1]);
+	}
+	
+	var start = new Date($('#pjstart').val());
+	var end = new Date($("#pjend").val());
+	
+	var sub = Math.ceil((end-start)/(1000*60*60*24));
+	
+
+	if($('#pjtitle').val() == ""){
+		alert("제목을 입력해주세요");
+	}
+	else if($('#pjcnt').val() ==""){
+		alert("내용을 입력해주세요");
+	}
+	else if($('#pjstart').val() == "" || $('#pjend').val()==""){
+		alert("날짜를 입력해주세요");
+		
+	}else if(sub < 0){
+		alert("날짜를 정확하게 입력해주세요");
+	}
+	else if($('#pjmember').length == 0 ){
+		alert("팀원을 등록해주세요");
+	}
+	else{
+
+	$('input:checkbox[id="pjmember"]').prop("checked",true);
+	document.sub2.submit();
+	}
+	
+})
+
+$('#dailyregist').click(function(){
+	if($('#datitle').val() == ""){
+		alert("제목을 입력해주세요");
+	}
+	else if($('#dacnt').val() == ""){
+		alert("내용을 입력해주세요");
+	}
+	else{
+		var pjtitle = document.createElement('input');
+		pjtitle.type="hidden";
+		pjtitle.name="pjtitle";
+		pjtitle.value= $('#daproject option:selected').text();
+		$('#pjno').val($('#daproject option:selected').val());
+		console.log("pjno = "+$('#daproject option:selected').val());
+		document.forms["sub3"].appendChild(pjtitle);
+	document.sub3.submit();
+	}
+})
+
+function updatedd(title) {
+	var start = new Date($('#pjstart_' + title).val());
+	var end = new Date($("#pjend_" + title).val());
+
+	var sub = Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24));
+
+	if ($('#pjtitle_' + title).val() == "") {
+		alert("제목을 입력해주세요");
+	} else if ($('#pjcnt_' + title).val() == "") {
+		alert("내용을 입력해주세요");
+	} else if ($('#pjstart_' + title).val() == ""
+			|| $('#pjend_' + title).val() == "") {
+		alert("날짜를 입력해주세요");
+
+	} else if (sub < 0) {
+		alert("날짜를 정확하게 입력해주세요");
+	} else if ($('#pjmember_' + title).length == 0) {
+		alert("팀원을 등록해주세요");
+	} else {
+		$('input:checkbox[id="pjmember_' + title + '"]').prop("checked",
+				true);
+		const dd = document.getElementById(title);
+		dd.setAttribute("action", "pjupdate.do");
+		dd.submit();
+		console.log(dd);
+	}
+
+}
+
+function deletedd(title) {
+	const dd = document.getElementById(title);
+	dd.setAttribute("action", "pjdelete.do");
+	dd.submit();
+	console.log(dd);
+}
+
+function opendd(no) {
+	const nn = document.getElementById("pj_" + no);
+	nn.style.display = "inline-block";
+}
+
+function closedd(no) {
+	const cc = document.getElementById("pj_" + no);
+	cc.style.display = "none";
+}
+
+function openProject(){
+	var project = document.getElementById("modal1");		
+	project.style.display = "inline-block";
+}
+
+function openDaily(){
+	var daily = document.getElementById("modal2");
+	daily.style.display = "inline-block";
+}
+
+function openDailyInfo(no){
+	var daily = document.getElementById("da_" + no);
+	daily.style.display = "inline-block";
+}
+
+function dailyclose(no){
+	var daily = document.getElementById("da_" + no);
+	daily.style.display = "none";
+}
+
+var closeproject = document.getElementById("close");
+closeproject.onclick = function (){
+	var project = document.getElementById("modal1");
+	project.style.display = "none";
+
+}
+
+document.getElementById("closedaily").onclick = function(){
+	
+	var daily = document.getElementById("modal2");
+	daily.style.display = "none";
+}
+
+function logdd(no) {
+	const dd = document.getElementById(no);
+	dd.setAttribute("action", "pllist.do");
+	dd.submit();
+	console.log(dd);
+}
+
+function memberadd(no) {
+	var add = $("#username option:selected").text();
+	$('#member_' + no)
+			.append(
+					"<label style='float:right'><input id='pjmember_"+no+"'name='pjmember' type='checkbox' value="+add+">"
+							+ add + "</label>");
+}
+
+function memberrm(no) {
+	$("input:checkbox[id='pjmember_" + no + "']").each(function() {
+		if ($(this).is(":checked") == true) {
+			$(this).parent().remove();
+		}
+	})
+}
+
+function dailyupdate(title){
+	if($('#datitle_'+title).val() == ""){
+		alert("제목을 입력해주세요");
+	}
+	else if($('#dacnt_'+title).val() == ""){
+		alert("내용을 입력해주세요");
+	}
+	else{
+		const dailyform = document.getElementById(title);
+		dailyform.setAttribute("action","dailyupdate.do");
+		var pjtitle = document.createElement('input');
+		pjtitle.type="hidden";
+		pjtitle.name="pjtitle";
+		pjtitle.value= $('#daproject_'+title+' option:selected').text();
+		$('#pjno_'+title).val($('#daproject_'+title+' option:selected').val());
+		dailyform.appendChild(pjtitle);
+		dailyform.submit();
+	}
+}
+function dailydelete(title){
+	const dailyform = document.getElementById(title);
+	$('#pjno_'+title).val($('#daproject_'+title+' option:selected').val());
+	dailyform.setAttribute("action","dailydelete.do");
+	dailyform.submit();
+}
+
+document.getElementById("add").onclick = function(){
+	var add = $("#username option:selected").text();
+	$('#member').append("<label style='font-size: 9pt;'><input id='pjmember' name='pjmember' type='checkbox' value="+add+">"+add+"</label>");
+	$('#username option:selected').remove();
+}
+
+document.getElementById("remove").onclick = function(){
+	var result ="";
+	$("input:checkbox[id='pjmember']").each(function(){
+		if($(this).is(":checked")==true){
+			result += $(this).val();
+			$(this).parent().remove();
+			$('#username').prepend("<option value='"+result+"'>"+result+"</option>");
+		}
+
+
+	})
+	if(result == ""){
+		alert("삭제할 참가자를 선택하세요");
+		return false;
+	}
+}
+
+function add(no){
+	var ad = $("#username_"+no+" option:selected").text();
+	$('#member_'+no).append("<label style='font-size:9pt;'><input id='pjmember_"+no+"'name='pjmember' type='checkbox' value="+ad+">"+ad+"</label>");
+	$('#username_'+no+'option:selected').remove();
+}
+
+function drop(no){
+	var result ="";
+	$("input:checkbox[id='pjmember_"+no+"']").each(function(){
+		if($(this).is(":checked")==true){
+			result += $(this).val();
+			$(this).parent().remove();
+			$('#username_'+no).prepend("<option value='"+result+"'>"+result+"</option>");
+		}	
+	})
+	if(result == ""){
+		alert("삭제할 참가자를 선택하세요");
+		return false;
+	}
+}
+function opendailydd(no){
+	   const ff = no;
+	   window.location.replace("dailyList.do?pjno="+ff);
+}
+</script>
+</body>
+</html>

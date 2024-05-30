@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="HolidayDAO">
+	<select id="existsByHolidayDate" parameterType="String"
+		resultType="dudu.HolidayVO">
+		select * from holiday where holiday_start = #{holidayDate} and holiday_name = #{holidayName}
+	</select>
+	<insert id="saveAll" parameterType="java.util.List">
+		INSERT INTO holiday (holiday_start, holiday_end, holiday_name)
+		VALUES
+		<foreach collection="list" item="holiday" separator=",">
+			(#{holiday.holidayStart},#{holiday.holidayEnd}, #{holiday.holidayName})
+		</foreach>
+	</insert>
+	<select id="getHolidayList" resultType="dudu.HolidayVO">
+		select * from holiday
+	</select>
+</mapper>

@@ -1,0 +1,98 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table border="1">
+	<tr>
+	<td></td>
+	<td>이름</td>
+	<td>이메일</td>
+	<td>직급</td>
+	<td>가입 상태</td>
+	</tr>
+	<c:forEach items="${user}" var="user">
+		<tr>
+			<td><input type="checkbox" name="chk" value="${user.useremail}"></td>
+			<td>${user.username}</td>
+			<td>${user.useremail}</td>
+			<td>${user.userrank}</td>
+			<c:choose>
+				<c:when test="${user.userstatus eq '1'}">
+					<td>가입 승인</td>
+				</c:when>
+				<c:otherwise>
+					<td>가입 미승인</td>
+				</c:otherwise>
+			</c:choose>
+		</tr>
+	</c:forEach>
+
+</table>
+	<div>
+	<input type="button" value="가입 승인" onclick="regist()">
+	<select id="md">
+		<option value="팀장">팀장</option>
+		<option value="팀원">팀원</option>
+	</select>
+	<input type="button" value="직급 변경" onclick="trade()">
+</div>
+</body>
+</html>
+
+<script>
+	function regist(){
+		const selected = document.querySelectorAll('input[name="chk"]:checked');
+		const cnt = selected.length;
+		
+		const form = document.createElement("form");
+		form.setAttribute("method","get");
+		form.setAttribute("action","adminregist.do");
+		
+		$('input:checkbox[name="chk"]').each(function(){
+			if($(this).is(':checked')==true){
+				const input1 = document.createElement("input");
+				input1.setAttribute("type","hidden");
+				input1.setAttribute("name","useremail");
+				input1.setAttribute("value",$(this).val());
+				form.appendChild(input1);
+			}
+		});
+
+		document.body.appendChild(form);
+		form.submit();
+	}
+	
+	function trade(){
+		var trade = $('#md option:selected').val();
+		const form = document.createElement("form");
+		form.setAttribute("method","get");
+		form.setAttribute("action","admintrade.do");
+		
+		$('input:checkbox[name="chk"]').each(function(){
+			if($(this).is(':checked')==true){
+				const input1 = document.createElement("input");
+				const input2 = document.createElement("input");
+				input1.setAttribute("type","hidden");
+				input1.setAttribute("name","userrank");
+				input1.setAttribute("value",trade);
+				
+				input2.setAttribute("type","hidden");
+				input2.setAttribute("name","useremail");
+				input2.setAttribute("value",$(this).val());
+				
+				form.appendChild(input2)
+				form.appendChild(input1);
+			}
+		});
+		console.log(form);
+		document.body.appendChild(form);
+		form.submit();
+	}
+</script>

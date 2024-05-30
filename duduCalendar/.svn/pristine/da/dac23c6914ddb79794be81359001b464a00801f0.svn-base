@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+body {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	justify-content: flex-start !important;
+}
+
+.topNav {
+    height: 88px;
+    width: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.leftNav{
+    border: 1px solid black;
+    box-sizing: border-box;
+	position: fixed;
+	width: 250px;
+	height: 100%;
+	left: 0;
+	top: 80px;
+}
+
+.rightNav{
+    border: 1px solid black;
+    box-sizing: border-box;
+	position: fixed;
+	width: 250px;
+	height: 100%;
+	right: 0;
+	top: 80px;
+}

@@ -1,0 +1,40 @@
+package dudu.member.login.service.impl;
+
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import dudu.member.login.service.DuduLoginVO;
+import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
+
+@Repository("duduLoginDAO")
+public class DuduLoginDAO extends EgovComAbstractDAO{
+	/**
+	 * EsntlId를 이용한 로그인을 처리한다
+	 */
+    public DuduLoginVO actionLoginByEsntlId(DuduLoginVO vo) throws Exception {
+    	return (DuduLoginVO)selectOne("duduLoginDAO.ssoLoginByEsntlId", vo);
+    }
+
+	/**
+	 * 일반 로그인을 처리한다
+	 */
+    public DuduLoginVO actionLogin(DuduLoginVO vo) throws Exception {
+    	return (DuduLoginVO)selectOne("duduLoginDAO.actionLogin", vo);
+    }
+    
+    /**
+	 * 로그인인증제한 내역을 조회한다.
+	 */
+	public Map<?,?> selectLoginIncorrect(DuduLoginVO vo) throws Exception {
+    	return (Map<?,?>)selectOne("duduLoginDAO.selectLoginIncorrect", vo);
+    }
+
+    /**
+	 * 로그인인증제한 내역을 업데이트 한다.
+	 */
+    public void updateLoginIncorrect(Map<?,?> map) throws Exception {
+    	update("duduLoginDAO.updateLoginIncorrect"+map.get("USER_SE"), map);
+    }
+    
+}

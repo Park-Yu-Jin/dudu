@@ -1,0 +1,146 @@
+package dudu.project.service;
+
+import java.util.Date;
+
+public class ProjectLogsVO {
+	
+	/** 수정로그번호 */
+	private String logNo;
+	/** 프로젝트번호 */
+	private String logPNo;
+	/** 수정한 사람 */
+	private String userEmail;
+	/** 수정 전 제목 */
+	private String logOldtitle;
+	/** 수정 후 제목 */
+	private String logNewtitle;
+	/** 수정 전 내용 */
+	private String logOldtext;
+	/** 수정 후 내용 */
+	private String logNewtext;
+	/** 수정 전 참여자 */
+	private String logOldmember;
+	/** 수정 후 참여자 */
+	private String logNewmember;
+	/** 수정 전 시작일자 */
+	private String logOldstart;
+	/** 수정 후 시작일자 */
+	private String logNewstart;
+	/** 수정 전 마감일자 */
+	private String logOldend;
+	/** 수정 후 마감일자 */
+	private String logNewend;
+	/** 수정한 날짜 */
+	private Date logDate;
+	/** 수정 전 색깔 */
+	private String logOldcolor;
+	/** 수정 후 색깔 */
+	private String logNewcolor;
+	
+	public String getLogOldtitle() {
+		return logOldtitle;
+	}
+	public void setLogOldtitle(String logOldtitle) {
+		this.logOldtitle = logOldtitle;
+	}
+	public String getLogNewtitle() {
+		return logNewtitle;
+	}
+	public void setLogNewtitle(String logNewtitle) {
+		this.logNewtitle = logNewtitle;
+	}
+	public String getLogOldmember() {
+		return logOldmember;
+	}
+	public void setLogOldmember(String logOldmember) {
+		this.logOldmember = logOldmember;
+	}
+	public String getLogNewmember() {
+		return logNewmember;
+	}
+	public void setLogNewmember(String logNewmember) {
+		this.logNewmember = logNewmember;
+	}
+	public String getLogOldstart() {
+		return logOldstart;
+	}
+	public void setLogOldstart(String logOldstart) {
+		this.logOldstart = logOldstart;
+	}
+	public String getLogNewstart() {
+		return logNewstart;
+	}
+	public void setLogNewstart(String logNewstart) {
+		this.logNewstart = logNewstart;
+	}
+	public String getLogOldend() {
+		return logOldend;
+	}
+	public void setLogOldend(String logOldend) {
+		this.logOldend = logOldend;
+	}
+	public String getLogNewend() {
+		return logNewend;
+	}
+	public void setLogNewend(String logNewend) {
+		this.logNewend = logNewend;
+	}
+	public String getLogOldcolor() {
+		return logOldcolor;
+	}
+	public void setLogOldcolor(String logOldcolor) {
+		this.logOldcolor = logOldcolor;
+	}
+	public String getLogNewcolor() {
+		return logNewcolor;
+	}
+	public void setLogNewcolor(String logNewcolor) {
+		this.logNewcolor = logNewcolor;
+	}
+	public String getLogNo() {
+		return logNo;
+	}
+	public void setLogNo(String logNo) {
+		this.logNo = logNo;
+	}
+	public String getLogPNo() {
+		return logPNo;
+	}
+	public void setLogPNo(String logPNo) {
+		this.logPNo = logPNo;
+	}
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+	public Date getLogDate() {
+		return logDate;
+	}
+	public void setLogDate(Date logDate) {
+		this.logDate = logDate;
+	}
+	public String getLogOldtext() {
+		return logOldtext;
+	}
+	public void setLogOldtext(String logOldtext) {
+		this.logOldtext = logOldtext;
+	}
+	public String getLogNewtext() {
+		return logNewtext;
+	}
+	public void setLogNewtext(String logNewtext) {
+		this.logNewtext = logNewtext;
+	}
+	@Override
+	public String toString() {
+		return "ProjectLogsVO [logNo=" + logNo + ", logPNo=" + logPNo + ", userEmail=" + userEmail + ", logOldtitle="
+				+ logOldtitle + ", logNewtitle=" + logNewtitle + ", logOldtext=" + logOldtext + ", logNewtext="
+				+ logNewtext + ", logOldmember=" + logOldmember + ", logNewmember=" + logNewmember + ", logOldstart="
+				+ logOldstart + ", logNewstart=" + logNewstart + ", logOldend=" + logOldend + ", logNewend=" + logNewend
+				+ ", logDate=" + logDate + ", logOldcolor=" + logOldcolor + ", logNewcolor=" + logNewcolor + "]";
+	}
+	
+	
+}

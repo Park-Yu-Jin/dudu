@@ -1,0 +1,448 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+body {
+	font-family: 'thejamsil';
+	padding: 70px;
+}
+
+.listdiv {
+	display: flex;
+	font-weight: 300;
+	font-size: 15px;
+	padding: 0 15px;
+	border-radius: 5px;
+	margin-bottom: 5px;
+	border: 1px solid #e5e5e5;
+	height: 60px;
+	align-items: center;
+}
+.listdiv:hover {
+	background-color: #f3f3f3;
+	cursor: pointer;
+}
+
+.projectList .listdiv:first-child {
+	border-top: 1px solid gray;
+}
+
+.projectList {
+	padding-bottom: 60px;
+}
+
+.pjlistTitle, .dalistTitle {
+	margin-bottom: 20px;
+	color: #3f3f3f;
+	padding: 10px;
+	border-radius: 5px;
+	width: 60px;
+	border: 1px solid #cbcbcb;
+}
+
+.color {
+	width: 3px;
+	height: 65%;
+	border-radius: 5px;
+	margin: 0 15px;
+}
+
+.date {
+	font-size: 13px;
+}
+
+.content {
+	font-size: 12px;
+	background-color: #ebebeb;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.title {
+	width: 350px;
+	overflow: hidden;
+}
+
+.dailytitle {
+	width: 310px;
+}
+
+.back {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	background-color: unset;
+	border: unset;
+	color: #b5b5b5;
+	cursor: pointer;
+}
+
+/* pjlist */
+.pjfrom {
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    flex-direction: column;
+    height: 100%;
+    font-size: 14px;
+}
+
+.pjinput {
+	width: 90%;
+	padding: 12px 15px;
+	border: none;
+	margin: 8px 0;
+	background-color: #eee;
+	overflow: hidden;
+}
+
+input[type=text] {
+	border: none;
+}
+
+.modal {
+	position: absolute;
+	display: none;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_body {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 600px;
+	padding: 40px;
+	text-align: center;
+	background-color: rgb(255, 255, 255);
+	border-radius: 10px;
+	transform: translateX(-50%) translateY(-50%);
+}
+
+.maindiv {
+    width: 85%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
+
+label{
+    display: flex;
+    align-items: center;
+}
+</style>
+<link href="https://webfontworld.github.io/TheJamsil/TheJamsil.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+</head>
+<body>
+	<button type="button" onclick="backToCalendar()" class="back">
+		<span class="material-symbols-outlined">arrow_back</span>
+	</button>
+	<div class="projectList">
+		<div class="pjlistTitle">프로젝트</div>
+		<c:if test="${not empty projectList}">
+			<c:forEach items="${projectList }" var="project">
+				<div class="listdiv" onclick="opendd('${project.pjno}')">
+					<div class="date">
+						<div>${project.pjstart}</div>
+						<div>~ ${project.pjend}</div>
+					</div>
+					<div class="color" style="background-color: ${project.pjcolor};"></div>
+					<div class="title">${project.pjtitle}</div>
+					<div class="content">${project.pjcnt }</div>
+				</div>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty projectList}">
+			<div class="listdiv">
+				<div>검색 결과와 일치하는 프로젝트가 존재하지 않습니다</div>
+			</div>
+		</c:if>
+	</div>
+
+	<div class="dailyList">
+		<div class="dalistTitle">일일업무</div>
+		<c:if test="${not empty dailyList}">
+			<c:forEach items="${dailyList }" var="daily">
+				<div class="listdiv" onclick="openDaily(${daily.dailyno})">
+					<c:set var="formattedDate"
+						value="${fn:substring(daily.dadate, 0, 16)}" />
+					<div>${formattedDate}</div>
+					<div class="color" style="background-color: ${daily.dacolor};"></div>
+					<div class="dailytitle">${daily.datitle}</div>
+					<div class="content">${daily.dacnt }</div>
+				</div>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty dailyList}">
+			<div class="listdiv">
+				<div>검색 결과와 일치하는 일일업무가 존재하지 않습니다</div>
+			</div>
+		</c:if>
+	</div>
+	
+	
+	<c:forEach items="${projectList}" var="modal">
+		<div id="pj_${modal.pjno}" class="modal">
+			<div class="modal_body" style="text-align: center">
+				<form class="pjfrom" id="${modal.pjno}" name="${modal.pjtitle}"
+					method="POST">
+					<div style="width: 100%; display: inline-block;">
+						<input class="pjinput"
+							style="float: left; width: 15%; height: 39px; padding: unset;"
+							name="pjcolor" type="color" value="${modal.pjcolor}"> <input
+							id="pjtitle_${modal.pjno}" style="width: 68%; float: right;"
+							name="pjtitle" class="pjinput" type="text"
+							value="${modal.pjtitle}">
+					</div>
+					<div style="width: 100%">
+						<input id="pjstart_${modal.pjno}" style="width: 140px"
+							name="pjstart" class="pjinput" type="date"
+							value="${modal.pjstart}"> <input
+							id="pjend_${moddal.pjno}" style="width: 140px" name="pjend"
+							class="pjinput" type="date" value="${modal.pjend}">
+					</div>
+					<div style="width: 100%"></div>
+					<div style="display: flex; width: 100%;">
+						<div style="font-size: 14px; margin-right: 10px;line-height: 19px;">참가자</div>
+						<div style="width:80%;" id="seldiv_${modal.pjno}">
+							<select id="username" style="float: left; height: 100%; width:70%;"
+								name="username">
+								<c:forEach items="${userList}" var="user">
+									<option value="${user.username}">${user.username}${user.userdepartment}</option>
+								</c:forEach>
+							</select> <input id="ad_${modal.pjno}"
+								onclick="memberadd('${modal.pjno}')"
+								style="margin-bottom: 7px; font-size: 12pt; display: flex"
+								type="button" value="추가"> <input id="de_${modal.pjno}"
+								onclick="memberrm('${modal.pjno}')"
+								style="font-size: 12pt; display: flex" type="button" value="삭제">
+						</div>
+						<div id="member_${modal.pjno}" style="width: 100%;">
+							<c:forEach items="${modal.pjmember}" var="mem">
+								<label style="float: right"><input
+									id="pjmember_${modal.pjno}" name="pjmember" type='checkbox'
+									value="${mem}">${mem}</label>
+							</c:forEach>
+						</div>
+					</div>
+					<div style="width: 100%">
+						<textarea id="pjcnt_${modal.pjno}" name="pjcnt" class="pjinput"
+							type="text" value="123" style="height: 200px;">${modal.pjcnt}</textarea>
+					</div>
+					<div style="width: 100%">
+						<input style="width: 100%;" class="pjinput" type="button"
+							id="up_${modal.pjno}" onclick="updatedd('${modal.pjno}')"
+							value="수정하기"> <input style="width: 100%;" class="pjinput"
+							type="button" onclick="closedd('${modal.pjno}')" value="닫기">
+						<input style="width: 100%" type="button" class="pjinput"
+							value="삭제" id="de_${modal.pjno}"
+							onclick="deletedd('${modal.pjno}')">
+						<c:if test="${modal.pjischange eq 1 }">
+							<input style="width: 100%;" type="button" class="pjinput" id="logBtn" value="수정 내역 확인"	onclick="logdd('${modal.pjno}')">
+						</c:if>
+					</div>
+					<input type="hidden" name="useremail"
+						value="${sessionScope.loginMember.email}"> <input
+						type="hidden" name="pjno" value="${modal.pjno}"> <input
+						type="hidden" name="dudu" value="search">
+				</form>
+			</div>
+		</div>
+	</c:forEach>
+	
+	<!-- 일일업무 상세보기 -->
+	<c:forEach items="${dailyList}" var="daily">
+			<div id="da_${daily.dailyno}" class="modal">		
+		<div class="modal_body" style="text-align:center;">
+		<form class="pjfrom" id="${daily.dailyno}" method="POST" style="padding-bottom: 30px;">
+		    <div style="width:100%; display:flex; align-items:center; justify-content: center;">
+		   		<input class="pjinput" style="float:left; width:15%; height:39px; padding:unset;" name="dacolor" type="color" value="${daily.dacolor}" id="deco">
+		        <input id="datitle_${daily.dailyno}" style="width:68%; float:right;" name="datitle" class="pjinput" type="text" maxlength="50" value="${daily.datitle}">
+		        <input style="width: 20px;background-color: unset;margin: 0;padding: 5px;position: absolute;right: 0;top: 70px;cursor: pointer;font-size: 20px;" 
+				class="pjinput" type="button" onclick="dailyclose('${daily.dailyno}')" value="x">
+		    </div>
+
+		    <div style="width:100%">
+			<textarea id="dacnt_${daily.dailyno}" name="dacnt" class="pjinput" type="text" maxlength="2000" placeholder="일일업무 내용" style="height:200px;" >${daily.dacnt}</textarea>
+		    </div>
+		    <div>
+		    <span>작업상태</span>
+		    	<select name="dafinish">
+		    		<option value="0">작업중</option>
+		    		<option value="1">작업완료</option>
+		    	</select>
+		    	<span>중요도</span>
+		    	<select name="daimp">
+		    		<option value=1>1</option>
+		    		<option value=2>2</option>
+		    		<option value=3>3</option>
+		    		<option value=4>4</option>
+		    		<option value=5>5</option>
+		    	</select>
+		    </div>
+		    <div style="width:100%">
+		        <input style="width:100%;" class="pjinput" type="button" value="수정하기" onclick="dailyupdate('${daily.dailyno}')">
+		        <input style="width:100%;" class="pjinput" type="button" onclick="dailydelete('${daily.dailyno}')" value="삭제">
+		    </div>
+		</div>
+		<input type="hidden" name="useremail" value="${sessionScope.loginMember.email}">
+		<input type="hidden" name="dailyno" value="${daily.dailyno}">
+		</form>
+	</div>
+	</c:forEach>
+</body>
+<script type="text/javascript">
+function backToCalendar(){
+	window.parent.frames['_calendar'].location.replace("duducalendar.do");
+}
+
+<c:forEach items="${projectList}" var="btn">
+if ("${sessionScope.loginMember.position}" != "연구원") {
+	$('#up_${btn.pjno}').show();
+	$('#de_${btn.pjno}').show();
+	$('#ad_${btn.pjno}').show();
+	$('#rm_${btn.pjno}').show();
+	$('#seldiv_${btn.pjno}').show();
+} else {
+	$('#up_${btn.pjno}').hide();
+	$('#de_${btn.pjno}').hide();
+	$('#ad_${btn.pjno}').hide();
+	$('#rm_${btn.pjno}').hide();
+	$('#seldiv_${btn.pjno}').hide();
+}
+</c:forEach>
+
+function updatedd(title) {
+	var start = new Date($('#pjstart_' + title).val());
+	var end = new Date($("#pjend_" + title).val());
+
+	var sub = Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24));
+
+	if ($('#pjtitle_' + title).val() == "") {
+		alert("제목을 입력해주세요");
+	} else if ($('#pjcnt_' + title).val() == "") {
+		alert("내용을 입력해주세요");
+	} else if ($('#pjstart_' + title).val() == ""
+			|| $('#pjend_' + title).val() == "") {
+		alert("날짜를 입력해주세요");
+
+	} else if (sub < 0) {
+		alert("날짜를 정확하게 입력해주세요");
+	} else if ($('#pjmember_' + title).length == 0) {
+		alert("팀원을 등록해주세요");
+	} else {
+		$('input:checkbox[id="pjmember_' + title + '"]').prop("checked",
+				true);
+		const dd = document.getElementById(title);
+		dd.setAttribute("action", "pjupdate.do");
+		dd.submit();
+		console.log(dd);
+	}
+
+}
+
+function deletedd(title) {
+	const dd = document.getElementById(title);
+	dd.setAttribute("action", "pjdelete.do");
+	dd.submit();
+	console.log(dd);
+}
+
+function opendd(no) {
+	const nn = document.getElementById("pj_" + no);
+	nn.style.display = "inline-block";
+}
+
+function closedd(no) {
+	const cc = document.getElementById("pj_" + no);
+	cc.style.display = "none";
+}
+
+function logdd(no) {
+	const dd = document.getElementById(no);
+	dd.setAttribute("action", "pllist.do");
+	dd.submit();
+	console.log(dd);
+}
+
+function memberadd(no) {
+	var add = $("#username option:selected").text();
+	$('#member_' + no)
+			.append(
+					"<label style='float:right'><input id='pjmember_"+no+"'name='pjmember' type='checkbox' value="+add+">"
+							+ add + "</label>");
+}
+
+function memberrm(no) {
+	$("input:checkbox[id='pjmember_" + no + "']").each(function() {
+		if ($(this).is(":checked") == true) {
+			$(this).parent().remove();
+		}
+	})
+}
+
+function dailyupdate(title){
+	if($('#datitle_'+title).val() == ""){
+		alert("제목을 입력해주세요");
+	}
+	else if($('#dacnt_'+title).val() == ""){
+		alert("내용을 입력해주세요");
+	}
+	else{
+		const dailyform = document.getElementById(title);
+		dailyform.setAttribute("action","dailyupdate.do");
+		dailyform.submit();
+	}
+}
+function dailydelete(title){
+	const dailyform = document.getElementById(title);
+	dailyform.setAttribute("action","dailydelete.do");
+	dailyform.submit();
+}
+
+function dailyclose(no){
+	var daily = document.getElementById("da_"+no);
+	daily.style.display = "none";
+}
+$('#dailyregist').click(function(){
+	if($('#datitle').val() == ""){
+		alert("제목을 입력해주세요");
+	}
+	else if($('#dacnt').val() == ""){
+		alert("내용을 입력해주세요");
+	}
+	else{
+	document.sub3.submit();
+	}
+})
+
+function openDaily(no){
+		const nn = document.getElementById("da_" + no);
+		nn.style.display = "inline-block";
+	}
+
+</script>
+</html>

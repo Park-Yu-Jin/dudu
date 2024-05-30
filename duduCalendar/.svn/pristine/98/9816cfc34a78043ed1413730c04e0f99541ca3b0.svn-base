@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="projectDAO">
+	<resultMap id="project" type="dudu.service.ProjectVO">
+		<result property="pjno" column="PROJECT_NO"/>
+		<result property="useremail" column="USER_EMAIL"/>
+		<result property="username" column="USER_NAME"/>
+		<result property="pjtitle" column="PROJECT_TITLE"/>
+		<result property="pjcnt" column="PROJECT_CONTENT"/>
+		<result property="pjmember" column="PROJECT_MEMBER"/>
+		<result property="pjstart" column="PROJECT_START"/>
+		<result property="pjend" column="PROJECT_END"/>
+		<result property="pjdm" column="PROJECT_DEPARTMENT"/>
+		<result property="pjcolor" column="PROJECT_COLOR"/>
+		<result property="pjischange" column="PROJECT_ISCHANGE"/>
+	</resultMap>
+	
+	<insert id="pjinsert" parameterType="dudu.service.ProjectVO">
+		INSERT INTO PROJECT_SCHEDULE(
+					USER_EMAIL,
+					USER_NAME,
+					PROJECT_TITLE,
+					PROJECT_CONTENT,
+					PROJECT_MEMBER,
+					PROJECT_START,
+					PROJECT_END,
+					PROJECT_DEPARTMENT,
+					PROJECT_COLOR
+		)
+		VALUE(
+			#{useremail},
+			#{username},
+			#{pjtitle},
+			#{pjcnt},
+			#{pjmember},
+			#{pjstart},
+			#{pjend},
+			#{pjdm},
+			#{pjcolor}
+		)
+	</insert>
+	
+	<select id="pjlist" parameterType="map" resultMap="project">
+		SELECT * FROM PROJECT_SCHEDULE WHERE (PROJECT_DEPARTMENT = #{user.orgnztNm} OR PROJECT_MEMBER LIKE CONCAT('%',#{user.name},'%'))
+		<if test="keyword != null and keyword != ''">
+            AND PROJECT_TITLE LIKE CONCAT('%',#{keyword},'%')
+        </if>
+	</select>
+	
+	<select id="adminpjlist" parameterType="dudu.service.ProjectVO" resultMap="project">
+		SELECT * FROM PROJECT_SCHEDULE
+	</select>
+	
+	<update id="pjupdate" parameterType="dudu.service.ProjectVO">
+		UPDATE PROJECT_SCHEDULE SET
+			PROJECT_TITLE = #{pjtitle},
+			PROJECT_CONTENT = #{pjcnt},
+			PROJECT_MEMBER = #{pjmember},
+			PROJECT_START = #{pjstart},
+			PROJECT_END = #{pjend},
+			PROJECT_COLOR = #{pjcolor},
+			PROJECT_ISCHANGE = 1
+			WHERE PROJECT_NO = #{pjno}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM PROJECT_SCHEDULE WHERE PROJECT_NO = #{pjno} 
+	</delete>
+		
+	<!-- 프로젝트 총 갯수 -->
+	<select id="count" resultType="int">
+		SELECT COUNT(PROJECT_NO) FROM PROJECT_SCHEDULE
+	</select>
+	
+	<!-- 프로젝트 목록 + 페이징 -->
+	<select id="pjlistPage" parameterType="java.util.HashMap" resultMap="project">
+		SELECT * FROM PROJECT_SCHEDULE
+			ORDER BY PROJECT_END ASC
+				LIMIT #{start}, #{limit}
+	</select>
+	
+</mapper>

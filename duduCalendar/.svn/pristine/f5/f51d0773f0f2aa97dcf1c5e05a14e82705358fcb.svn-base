@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="duduDAO">
+	<resultMap id="user" type="dudu.service.UserVO">
+		<result property="useremail" column="USER_EMAIL"/>
+		<result property="userpw" column="USER_PW"/>
+		<result property="username" column="USER_NAME"/>
+		<result property="userdepartment" column="USER_DEPARTMENT"/>
+		<result property="userrank" column="USER_RANK"/>
+		<result property="userrole" column="USER_ROLE"/>
+		<result property="userstatus" column="USER_STATUS"/>
+	</resultMap>
+	
+	<update id="reset" parameterType="dudu.service.UserVO">
+		UPDATE USER SET USER_PW = #{userpw} WHERE USER_EMAIL = #{usermail}
+	</update>
+	
+	<select id="userlist" parameterType="dudu.service.UserVO" resultMap="user">
+		SELECT * from USER
+	</select>
+
+	
+</mapper>

@@ -1,0 +1,91 @@
+package dudu.service;
+
+public class ProjectVO {
+	public String pjno;
+	public String useremail;
+	public String username;
+	public String pjtitle;
+	public String pjcnt;
+	public String pjmember;
+	public String pjstart;
+	public String pjend;
+	public String pjdm;
+	public String pjcolor;
+	public int pjischange;
+	public int getPjischange() {
+		return pjischange;
+	}
+	public void setPjischange(int pjischange) {
+		this.pjischange = pjischange;
+	}
+	public String getPjno() {
+		return pjno;
+	}
+	public void setPjno(String pjno) {
+		this.pjno = pjno;
+	}
+
+	public String getPjtitle() {
+		return pjtitle;
+	}
+	
+	public String getUseremail() {
+		return useremail;
+	}
+	public void setUseremail(String useremail) {
+		this.useremail = useremail;
+	}
+	public void setPjtitle(String pjtitle) {
+		this.pjtitle = pjtitle;
+	}
+	public String getPjcnt() {
+		return pjcnt;
+	}
+	public void setPjcnt(String pjcnt) {
+		this.pjcnt = pjcnt;
+	}
+	public String getPjmember() {
+		return pjmember;
+	}
+	public void setPjmember(String pjmember) {
+		this.pjmember = pjmember;
+	}
+	public String getPjstart() {
+		return pjstart;
+	}
+	public void setPjstart(String pjstart) {
+		this.pjstart = pjstart;
+	}
+	public String getPjend() {
+		return pjend;
+	}
+	public void setPjend(String pjend) {
+		this.pjend = pjend;
+	}
+	public String getPjdm() {
+		return pjdm;
+	}
+	public void setPjdm(String pjdm) {
+		this.pjdm = pjdm;
+	}
+	public String getPjcolor() {
+		return pjcolor;
+	}
+	public void setPjcolor(String pjcolor) {
+		this.pjcolor = pjcolor;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	@Override
+	public String toString() {
+		return "ProjectVO [pjno=" + pjno + ", useremail=" + useremail + ", pjtitle=" + pjtitle + ", pjcnt=" + pjcnt
+				+ ", pjmember=" + pjmember + ", pjstart=" + pjstart + ", pjend=" + pjend + ", pjdm=" + pjdm
+				+ ", pjcolor=" + pjcolor + ", pjischange=" + pjischange + "]";
+	}
+	
+}

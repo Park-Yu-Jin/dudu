@@ -1,0 +1,119 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+body {
+	font-family: 'thejamsil';
+	padding: 30px;
+}
+
+.listdiv {
+	display: flex;
+	font-weight: 300;
+	font-size: 15px;
+	padding: 0 15px;
+	border-radius: 5px;
+	margin-bottom: 5px;
+	border: 1px solid #e5e5e5;
+	height: 60px;
+	align-items: center;
+}
+
+.projectList .listdiv:first-child {
+	border-top: 1px solid gray;
+}
+
+.projectList {
+	padding-bottom: 60px;
+}
+
+.pjlistTitle, .dalistTitle {
+	margin-bottom: 20px;
+	color: #3f3f3f;
+	padding: 10px;
+	border-radius: 5px;
+	width: 60px;
+	border: 1px solid #cbcbcb;
+}
+
+.color {
+	width: 3px;
+	height: 65%;
+	border-radius: 5px;
+	margin: 0 15px;
+}
+
+.date {
+    font-size: 13px;
+}
+
+.content {
+    font-size: 12px;
+    background-color: #ebebeb;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.title{
+    width: 350px;
+    overflow: hidden;
+}
+
+.dailytitle{
+	width: 310px;
+}
+</style>
+<link href="https://webfontworld.github.io/TheJamsil/TheJamsil.css"
+	rel="stylesheet">
+</head>
+<body>
+	<div class="projectList">
+		<div class="pjlistTitle">프로젝트</div>
+		<c:if test="${not empty projectList}">
+			<c:forEach items="${projectList }" var="project">
+				<div class="listdiv">
+					<div class="date">
+						<div>${project.pjstart}</div>
+						<div>~ ${project.pjend}</div>
+					</div>
+					<div class="color" style="background-color: ${project.pjcolor};"></div>
+					<div class="title">${project.pjtitle}</div>
+					<div class="content">${project.pjcnt }</div>
+				</div>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty projectList}">
+			<div class="listdiv">
+				<div>검색 결과와 일치하는 프로젝트가 존재하지 않습니다</div>
+			</div>
+		</c:if>
+	</div>
+
+	<div class="dailyList">
+		<div class="dalistTitle">일일업무</div>
+		<c:if test="${not empty dailyList}">
+			<c:forEach items="${dailyList }" var="daily">
+				<div class="listdiv">
+					<c:set var="formattedDate" value="${fn:substring(daily.dadate, 0, 16)}" />
+					<div>${formattedDate}</div>
+					<div class="color" style="background-color: ${daily.dacolor};"></div>
+					<div class="dailytitle">${daily.datitle}</div>
+					<div class="content">${daily.dacnt }</div>
+				</div>
+			</c:forEach>
+		</c:if>
+		<c:if test="${empty dailyList}">
+			<div class="listdiv">
+				<div>검색 결과와 일치하는 일일업무가 존재하지 않습니다</div>
+			</div>
+		</c:if>
+	</div>
+</body>
+</html>

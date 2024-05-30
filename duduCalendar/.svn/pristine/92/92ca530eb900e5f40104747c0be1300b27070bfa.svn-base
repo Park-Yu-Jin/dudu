@@ -1,0 +1,198 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'TheJamsil';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/TheJamsil/TheJamsil-Light.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/TheJamsil/TheJamsil-Light.eot?#iefix') format('embedded-opentype'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/TheJamsil/TheJamsil-Light.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/TheJamsil/TheJamsil-Light.woff') format('woff'),
+        url('https://cdn.jsdelivr.net/gh/webfontworld/TheJamsil/TheJamsil-Light.ttf') format("truetype");
+    font-display: swap;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+}
+
+body {
+	font-family: 'TheJamsil';
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex-direction: column;
+	margin: 0px;
+	overflow: hidden;
+}
+	
+.adminButton {
+    margin: 0 10px;
+    font-size: 17px;
+    font-weight: 400;
+    background-color: #2a3973;
+    border: none;
+    translate: 0 -30%;
+    cursor: pointer;
+    color: white;
+    font-family: "TheJamsil";
+    padding: 7px 15px;
+    border-radius: 5px;
+}
+	
+.adminTable {
+	width: 100%;
+	max-width:1152px;
+	border: none;
+	border-collapse: collapse;
+}
+
+.adminTitle {
+    font-size: 25px;
+    font-weight: bold;
+    color: #092873;
+    margin-bottom: 30px;
+    width: 1152px;
+    display: flex;
+}
+
+.adminPaging {
+	font-size: 20px;
+    font-family: 'TheJamsil';
+    color: #313131;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    bottom: 15%;
+    translate: -50%;
+}
+
+.adminPaging a,span{
+	margin-left: 5px;
+}
+
+.buttonArea {
+    margin-top: 30px;
+    display: flex;
+    width: 1152px;
+    justify-content: flex-end;
+}
+
+.close {
+	display:flex;
+	justify-content: flex-end;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.mainDiv {
+    width: 85%;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -60%;
+    height: 467px;
+    display: flex;
+}
+
+.modalTitle {
+	font-size: 26px;
+	font-weight: bold;
+}
+
+table thead tr:first-child th {
+    border-top: 2px solid #0f317f;
+    border-bottom: 1px solid #dbdbdb;
+    text-align: center;
+    background-color: #f2f2f2;
+}
+
+tbody tr {
+	border-bottom: 1px solid #dbdbdb;
+}
+
+tbody tr:hover {
+	background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+th, td {
+	padding: 15px;
+}
+
+tr {
+	text-align:center;
+}
+
+.modal {
+	display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+  
+.modalContent {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    animation: modal-show 0.4s ease-out;
+}
+
+.modalBtn {
+	margin: 0 10px;
+	font-size: 20px;
+    font-weight: 400;
+    background-color: #2a3973;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-family: "TheJamsil";
+    padding: 7px 15px;
+    border-radius: 5px;
+}
+  
+@keyframes modal-show {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+
+thead>tr{
+	font-size: 15px;
+}
+
+tbody>tr{
+	font-size: 14px;
+	font-weight: 300;
+}
+
+th {
+    height: 52px;
+    box-sizing: border-box;
+}
+
+.back {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	background-color: unset;
+	border: unset;
+	color: #b5b5b5;
+	cursor: pointer;
+}

@@ -1,0 +1,70 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding: 0 10px;
+	font-family: 'thejamsil';
+}
+
+.topNav {
+	height: 75px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.btn {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.topbutton {
+    font-size: 12px;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+}
+
+.searchBox input {
+    outline: none;
+    width: 177px;
+    font-size: 12px;
+    padding: 6px 10px 6px 35px;
+    border: 1px solid #bfbfbf;
+    border-radius: 3px;
+    font-weight: 300;
+}
+
+.searchBox{
+	position: relative;
+}
+
+svg{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    translate: 0 -50%;
+    height: 12px;
+    color: gray;
+}
+
+.btn a {
+    display: flex;
+    align-items: center;
+    text-decoration: unset !important;
+}
+
+#logout{
+	margin-right: 15px;
+}
+
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+    border-color: white !important;
+}

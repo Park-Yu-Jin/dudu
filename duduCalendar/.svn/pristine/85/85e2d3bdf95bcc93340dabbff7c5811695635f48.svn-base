@@ -1,0 +1,43 @@
+package dudu.service.impL;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
+import dudu.sql.CommonDAO;
+import dudu.service.UserVO;
+import dudu.service.EmailService;
+import dudu.service.ProjectVO;
+import dudu.service.ProjectService;
+
+@Service
+public class ProjectServiceImpl implements ProjectService {
+	
+	@Resource(name="commonDAO")
+	private CommonDAO commondao;
+	
+	@Override
+	public void pjinsert(ProjectVO vo) {
+		commondao.insert("projectDAO.pjinsert",vo);
+	}
+	
+	@Override
+	public List<ProjectVO> pjlist(ProjectVO vo) throws Exception{
+		List<ProjectVO> pjlist = commondao.selectList("projectDAO.pjlist",vo);
+		return pjlist;
+	}
+	
+	@Override
+	public void pjupdate(ProjectVO vo) throws Exception{
+		commondao.update("projectDAO.update",vo);
+	}
+}

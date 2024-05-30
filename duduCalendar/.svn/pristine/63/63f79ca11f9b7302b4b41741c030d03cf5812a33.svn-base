@@ -1,0 +1,75 @@
+package dudu.project.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import dudu.project.service.ProjectLogsService;
+import dudu.project.service.ProjectLogsVO;
+import dudu.service.ProjectVO;
+import dudu.sql.CommonDAO;
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+
+@Service("projectLogsService")
+public class ProjectLogsServiceImpl extends EgovAbstractServiceImpl implements ProjectLogsService {
+	
+	@Resource(name="projectLogsDAO")
+	private ProjectLogsDAO projectLogsDAO;
+	
+	@Resource(name="commonDAO")
+	private CommonDAO commondao;
+	
+	@Resource(name = "projectLogsService")
+	private ProjectLogsService projectLogsService;
+	
+	@Override
+	public List<?> getLogNum(ProjectVO pjvo) throws Exception {
+		System.out.println("p넘버1: " + projectLogsDAO.getLogNum(pjvo.getPjno()));
+		return projectLogsDAO.getLogNum(pjvo.getPjno());
+	}
+	
+	@Override
+	public List<ProjectLogsVO> plList(ProjectLogsVO vo) throws Exception {
+		return projectLogsDAO.plList(vo);
+	}
+	
+	@Override
+	public void plInsert(ProjectVO pjvo, ProjectLogsVO plvo) throws Exception {
+//		String logNo;
+//		if (getLogNum(pjvo) == null) {
+//			logNo = "p" + pjvo.getPjno() + "1";
+//		} else {
+//		}
+//		
+//		plvo.setLogNo(pjvo.getPjno());
+		
+		List<?> logsList = projectLogsService.getLogNum(pjvo);
+		String newLogNo = "";
+		
+		if (!logsList.isEmpty()) {
+			int lastIndex = logsList.size() - 1;
+			ProjectLogsVO lastLog = (ProjectLogsVO) logsList.get(lastIndex);
+			String lastLogNo = lastLog.getLogNo();
+			
+			String[] parts = lastLogNo.split("-");
+			String numberPart = parts[1];
+			int number = Integer.parseInt(numberPart);
+		    number++;
+		    
+		    newLogNo = parts[0] + "-" + number;
+		} else {
+			newLogNo = pjvo.getPjno() + "-" + "1";
+		}
+		
+		plvo.setLogNo(newLogNo);
+		projectLogsDAO.plInsert(plvo);
+	}
+	
+	@Override
+	public void plUpdate(ProjectVO pjvo, ProjectLogsVO plvo) throws Exception {
+		projectLogsDAO.plUpdate(pjvo, plvo);
+	}
+	
+}

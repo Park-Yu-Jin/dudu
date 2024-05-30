@@ -1,0 +1,138 @@
+@charset "UTF-8";
+	.backslash {
+  		background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="0" x2="100%" y2="100%" stroke="gray" /></svg>');
+	}
+
+	body{
+		height: 837px;
+		display: flex;
+		justify-content:center;
+		align-items: center;
+		flex-direction: column;
+		font-family: 'thejamsil';
+	}
+	.back {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	background-color: unset;
+	border: unset;
+	color: #b5b5b5;
+	cursor: pointer;
+}
+	.main_div{
+		border: 2px solid #d3d3d3;
+		width:700px;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.btn{
+		width:30%;
+		height: 65%;
+		margin: 15px 50px;
+		font-size:20px;
+		background-color: #2556a3;
+		color:white;
+		font-family:'thejamsil';
+		border-radius:10px;
+		border:none;
+	}
+	
+	.content{
+		border-bottom: 1px solid #d3d3d3;
+		width:100%;
+		height:7%;
+		text-align:center;
+		display:flex;
+		}
+	.apptable{
+		border-collapse: collapse;
+	}
+	.apptr{
+		text-align: center;
+		}
+	
+		.modal{
+		position: absolute;
+		display:none;
+		justify-content: center;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background-color: rgba(0,0,0,0.4);
+		z-index: 10000;
+		font-family:"thejamsil";
+	}
+	
+	.modal_body{
+		position:absolute;
+		top:50%;
+		left: 50%;
+		width: 300px;
+		height: 300px;
+		padding: 40px;
+		text-align: center;
+		border-radius: 10px;
+		transform: translateX(-50%) translateY(-50%);
+		
+	}
+	
+		.pjfrom{
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		width: 100%;
+		flex-direction: column;
+		border-radius: 10px;
+	}
+	.approval_topcolor{
+		background-color: #2556a3;
+		color:white;
+		border-right:1px solid #d3d3d3;
+	}
+	.content div{
+		width:20%;
+		height:100%;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+	}
+	.cnt{
+		width:100%;
+		margin: 10px;
+		align-items: flex-start;
+		justify-content:flex-start;
+	}
+	
+	.backtitle{
+		height: 30px;
+		font-size: 14pt;
+	}
+	.backcnt{
+		width:250px;
+		height: 150px;
+		font-size: 14pt;
+		font-family: "thejamsil";
+		resize:none;
+		overflow: auto;
+	}
+	.backbtn{
+		width:80px;
+		height: 30px;
+		border:none;
+		color:white;
+		background-color:#2556a3;
+		border-radius: 5px;
+	}
+	.backfoot{
+		width:100%;
+		height:60px;
+		display:flex;
+		justify-content:space-evenly;
+		align-items:flex-end;
+	}

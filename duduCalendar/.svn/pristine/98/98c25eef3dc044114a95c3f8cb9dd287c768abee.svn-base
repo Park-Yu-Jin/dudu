@@ -1,0 +1,389 @@
+@charset "UTF-8";
+#deco {
+	width: 35px !important;
+	height: 38px !important;
+	padding: unset;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-color: transparent;
+	border: none;
+	margin-right: 10px;
+}
+
+#deco::-webkit-color-swatch {
+	border-radius: 30px;
+	border: none;
+}
+
+select, input{
+	font-family: 'thejamsil';
+}
+
+.thead, .tbody {
+    display: flex;
+    flex-direction: column;
+    font-size: 17px;
+    font-weight: 300;
+    font-family: 'thejamsil';
+}
+
+.tbody{
+	font-size: 15px;
+}
+
+.ptitle {
+    width: 45%;
+    display: flex;
+    padding-left: 20px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 40px;
+    font-size: 14px;
+}
+
+.pstart, .pend {
+    width: 100px;
+    font-size: 14px;
+}
+
+.pstart{
+  /*   margin-left: 20px; */
+}
+
+.pmem, .pdep {
+    font-size: 14px;
+    width: 20%;
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    justify-content: center;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    margin: 0 40px;
+    border-top: 1px solid #dbdbdb;
+    align-items: center;
+    height: 50px;
+    cursor: pointer;
+    justify-content: center;
+    padding: 0 20px;
+}
+.row>div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* .row>div:first-child {
+    height: 65%;
+} */
+.row:last-child {
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.thead {
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    margin: 0 40px;
+    box-sizing: border-box;
+}
+
+.tbody .row:hover{
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+input{
+    background-color: unset;
+    border: unset;
+    font-family: thejamsil;
+    font-weight: 400;
+}
+
+.ptitle>input{
+	font-size: 17px;
+}
+
+a, span {
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 19px;
+    margin-left: 5px;
+}
+
+a:visited{
+	color: black;
+}
+
+.under {
+    background-color: #afafaf1c;
+}
+
+.tbody .username{
+	font-size: 14px;
+}
+
+body {
+   scrollbar-face-color: #F6F6F6;
+   scrollbar-highlight-color: #bbbbbb;
+   scrollbar-3dlight-color: #FFFFFF;
+   scrollbar-shadow-color: #bbbbbb;
+   scrollbar-darkshadow-color: #FFFFFF;
+   scrollbar-track-color: #FFFFFF;
+   scrollbar-arrow-color: #bbbbbb;
+   margin-left: "0px";
+   margin-right: "0px";
+   margin-top: "0px";
+   margin-bottom: "0px";
+   display: flex;
+   justify-content: center;
+   height: 100vh;
+   align-items: center;
+   font-family: 'thejamsil';
+}
+
+.listtable {
+   font-size: 30px;
+   text-align: center;
+   width: 1400px;
+   border-collapse: collapse;
+}
+
+.listtable tr {
+   font-size: 30px;
+   border-bottom: 1px solid black !important;
+   text-align: center;
+}
+
+.listtable td {
+   font-size: 20px;
+   text-align: center;
+   font-weight: 300;
+   padding: 10px 0;
+}
+
+form {
+   display: flex;
+   height:100%;
+}
+
+.pjfrom {
+   background-color: #FFFFFF;
+   width: 500px;
+   border-radius: 10px;
+}
+
+input[type=text] {
+   border: 1px solid black;
+}
+
+.modal {
+   position: absolute;
+   display: none;
+   justify-content: center;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.4);
+   z-index: 10;
+	font-family:"thejamsil";
+}
+
+.modal_body {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   width: 550px;
+   height: 600px;
+   padding: 40px;
+   text-align: center;
+   border-radius: 10px;
+   transform: translateX(-50%) translateY(-50%);
+}
+
+.maindiv {
+    width: 85%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -60%;
+    height: 467px;
+}
+
+.title {
+   font-size: 25px;
+   position: relative;
+   top: 0;
+   width: 0;
+   margin-bottom: 11px;
+   border-bottom: 1px solid gray;
+   padding: 10px;
+}
+
+.back {
+   position: absolute;
+   top: 30px;
+   left: 30px;
+   background-color: unset;
+   border: unset;
+   color: #b5b5b5;
+   cursor: pointer;
+}
+
+.pdate {
+    width: 231px;
+    display: flex;
+    justify-content: center;
+}
+.blueborder {
+    border-top: 2px solid #0f317f;
+    background-color: #f1f1f1;
+}
+.pno {
+    width: 5%;
+    font-size: 14px;
+}
+.header {
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.username{
+   width: 10%;
+}
+
+	.modaltitle{
+		display:flex;
+		height: 5%;
+		border-bottom: 2px solid #2556a3;
+	}
+	.modaltitle div{
+		display:flex;
+		align-items: flex-end;
+		padding-left: 20px;
+		padding-bottom: 10px;
+	}
+	.pjinfo{
+		display:flex;
+		font-size: 9pt;
+		padding: 10px 0;
+	}
+	.pjbody{
+		display:flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+	.tableborder{
+		border-left: 1px solid #a59d9d;
+	}
+	
+	tr{
+		border-top: 1px solid #a59d9d;
+	}
+	
+	td{
+		text-align:left;
+	}
+	
+	table{
+		width:100%;
+		padding-top: 10px;
+		border-collapse: collapse;
+	}
+	.pjtitle{
+		width:90%;
+		padding: 10px;
+		margin: 5px;
+	}
+	.tableborder input{
+		padding: 5px;
+		margin: 5px;
+	}
+	
+	.pjcnt{
+		resize:none;
+		overflow: auto;
+		width: 90%;
+		height: 100px;
+		padding: 10px;
+		font-family: "thejamsil";
+		margin: 5px;
+	}
+	.pjuser{
+		border: 1px solid #a59d9d;
+		width: 200px;
+		height: 120px;
+
+	}
+	
+	.userbtn{
+		display:flex;
+		flex-direction: column;
+		justify-content: space-around;
+		margin:0 20px;
+	}
+	
+	.userbtn input{
+		width: 50px;
+		height: 30px;
+		font-size: 12pt;
+		font-weight:400;
+		font-family: "thejamsil";
+		color:white;
+		background-color: #2a3973;
+		border: none;
+		translate: 0 -30%;
+		border-radius: 5px;
+		}
+	
+	.pjmember{
+		display:flex;
+		justify-content:center;
+		margin: 10px 0;
+	}
+	.pjfoot{
+		display:flex;
+		justify-content:center;
+	}
+	.pjfoot input{
+		width: 90px;
+		height:40px;
+		font-size: 12pt;
+		font-weight:400;
+		font-family: "thejamsil";
+		color:white;
+		background-color: #2a3973;
+		border: none;
+		translate: 0 -30%;
+		border-radius: 5px;
+	}
+	.pjfoot div{
+		width: 50%;
+		display: flex;
+		justify-content:center;
+	}
+	.divtext{
+		padding: 5px;
+	}
+	select{
+		width:100%;
+		height:100%;
+		text-align:center;
+		margin:5px;
+	}

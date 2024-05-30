@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+body {
+	font-family: 'TheJamsil';
+}
+
+.fc-next-button, .fc-prev-button, .fc-today-button {
+	padding: 0 !important;
+	background-color: white !important;
+	border: none !important;
+	color: black !important;
+	font-size: 12px !important;
+}
+
+.fc-header-toolbar {
+	padding: 0 0.5em;
+}
+
+.fc .fc-toolbar-title {
+	font-size: 0.9em !important;
+	font-weight: 300;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 0.6em !important;
+}
+
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+	min-height: 0 !important;
+	width: 0;
+}
+
+.fc .fc-daygrid-day-number {
+	font-size: 10px;
+	font-weight: 300;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+	border: none !important;
+}
+
+.fc-theme-standard td, .fc-theme-standard th {
+	border: none !important;
+}
+
+.fc .fc-daygrid-day-frame {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.fc .fc-daygrid-day-frame:hover {
+	background-color: #d1d1d1;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.fc .fc-col-header-cell-cushion {
+	font-weight: 300;
+	font-size: 13px;
+}
+
+.fc-today-button{
+    margin-right: 4px;
+    margin-top: 2px;
+}
+
+#calendar{
+	margin-top: 15px;
+}
+
+.fc .fc-button-primary:focus {
+    box-shadow: unset !important;
+}
+
+.fc-day-sun .fc-daygrid-day-number{
+	color: #ff6363;
+}
+
+#filteringDiv{
+	font-size: 13px;
+}
+
+#holidayFiltering, #projectFiltering, #dailyFiltering{
+    display: flex;
+    align-items: center;
+}
+
+.fc .fc-button .fc-icon {
+    font-size: 1.3em !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: rgb(255 157 10 / 21%);
+    border-radius: 5px;
+}
+

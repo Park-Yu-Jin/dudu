@@ -1,0 +1,181 @@
+package dudu.web;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import dudu.service.EmailService;
+import dudu.service.UserVO;
+import dudu.HolidayVO;
+import dudu.service.CalendarService;
+import dudu.service.HolidayService;
+import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cop.smt.sim.service.EgovIndvdlSchdulManageService;
+import egovframework.com.cop.smt.sim.service.IndvdlSchdulManageVO;
+
+@Controller
+public class CalendarController {
+
+	@Resource(name = "CalendarService")
+	private CalendarService calendarService;
+
+	@Resource(name = "egovIndvdlSchdulManageService")
+	private EgovIndvdlSchdulManageService egovIndvdlSchdulManageService;
+
+	@Resource(name = "EgovCmmUseService")
+	private EgovCmmUseService cmmUseService;
+
+	@Resource(name = "HolidayService")
+	private HolidayService holidayService;
+
+	@Autowired
+	private EmailService emailService;
+
+	/**
+	 * 일정(월별) 목록을 조회한다.
+	 * 
+	 * @param searchVO
+	 * @param commandMap
+	 * @param indvdlSchdulManageVO
+	 * @param model
+	 * @return "egovframework/com/cop/smt/sim/EgovIndvdlSchdulManageMonthList"
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "rawtypes", "unused" })
+	@RequestMapping(value = "calendar.do")
+	public String egovIndvdlSchdulManageMonthList(@RequestParam Map<String, String> commandMap,
+			IndvdlSchdulManageVO indvdlSchdulManageVO, ModelMap model, UserVO vo) throws Exception {
+
+		// 일정구분 검색 유지
+		model.addAttribute("searchKeyword",
+				commandMap.get("searchKeyword") == null ? "" : (String) commandMap.get("searchKeyword"));
+		model.addAttribute("searchCondition",
+				commandMap.get("searchCondition") == null ? "" : (String) commandMap.get("searchCondition"));
+
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+
+		String sYear = commandMap.get("year");
+		String sMonth = commandMap.get("month");
+
+		int iYear = cal.get(java.util.Calendar.YEAR);
+		int iMonth = cal.get(java.util.Calendar.MONTH);
+		int iDate = cal.get(java.util.Calendar.DATE);
+
+		// 검색 설정
+		String sSearchDate = "";
+		if (sYear == null || sMonth == null) {
+			sSearchDate += Integer.toString(iYear);
+			sSearchDate += Integer.toString(iMonth + 1).length() == 1 ? "0" + Integer.toString(iMonth + 1)
+					: Integer.toString(iMonth + 1);
+		} else {
+			iYear = Integer.parseInt(sYear);
+			iMonth = Integer.parseInt(sMonth);
+			sSearchDate += sYear;
+			sSearchDate += Integer.toString(iMonth + 1).length() == 1 ? "0" + Integer.toString(iMonth + 1)
+					: Integer.toString(iMonth + 1);
+		}
+
+		// 공통코드 일정종류
+		ComDefaultCodeVO voComCode = new ComDefaultCodeVO();
+		voComCode = new ComDefaultCodeVO();
+		voComCode.setCodeId("COM030");
+		List listComCode = cmmUseService.selectCmmCodeDetail(voComCode);
+		model.addAttribute("schdulSe", listComCode);
+
+		commandMap.put("searchMonth", sSearchDate);
+		commandMap.put("searchMode", "MONTH");
+
+		List resultList = egovIndvdlSchdulManageService.selectIndvdlSchdulManageRetrieve(commandMap);
+		model.addAttribute("resultList", resultList);
+
+		// 공휴일
+		List<HolidayVO> holiday = new ArrayList<>();
+		List<String> dateList = new ArrayList<>();
+
+		String Year = Integer.toString(iYear);
+		String Month = "";
+		String lastYear = "";
+		String lastMonth = "";
+		String nextYear = "";
+		String nextMonth = "";
+
+		// 이번달
+		Month = String.format("%02d", iMonth + 1);
+
+		// 이전달
+		if (iMonth + 1 == 1) {
+			lastYear = Integer.toString(iYear - 1);
+			lastMonth = "12";
+		} else {
+			lastYear = Year;
+			lastMonth = String.format("%02d", iMonth);
+		}
+
+		// 다음달
+		if (iMonth + 1 == 12) {
+			nextYear = Integer.toString(iYear + 1);
+			nextMonth = "01";
+		} else {
+			nextYear = Year;
+			nextMonth = String.format("%02d", iMonth + 2);
+		}
+
+		String date = String.join("-", Year, Month);
+		String lastDate = String.join("-", lastYear, lastMonth);
+		String nextDate = String.join("-", nextYear, nextMonth);
+
+		dateList.add(date);
+		dateList.add(lastDate);
+		dateList.add(nextDate);
+
+		System.out.println("date: " + date);
+		System.out.println("lastDate: " + lastDate);
+		System.out.println("nextDate: " + nextDate);
+		System.out.println("dateList: " + dateList);
+
+		holiday = holidayService.getHoliday();
+		model.addAttribute("holidayList", holiday);
+
+		List<UserVO> userlist = emailService.userlist(vo);
+		model.addAttribute("username", userlist);
+		System.out.println(vo);
+		System.out.println("holidayholidayholiday: " + holiday);
+
+		return "dudu/calendar/calendar";
+	}
+
+	@RequestMapping(value = "duducalendar.do", method = RequestMethod.GET)
+	public String getCalendar(ModelMap model, HttpServletRequest request, @RequestParam(value = "year", required = false) String year, 
+            @RequestParam(value = "month", required = false) String month,
+            UserVO vo) throws Exception {
+		List<HolidayVO> holiday = null;
+		List<UserVO> admin = emailService.userlist(vo);
+		model.addAttribute("user",admin);
+		
+		try {
+
+
+			holiday = holidayService.getHoliday();
+			request.setAttribute("holidayList", holiday);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("holidayList", holiday);
+		
+		return "/dudu/calendar/duducalendar";
+	}
+
+}

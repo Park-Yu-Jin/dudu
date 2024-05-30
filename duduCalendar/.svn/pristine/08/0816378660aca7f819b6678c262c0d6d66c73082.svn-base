@@ -1,0 +1,20 @@
+package dudu.service;
+
+import dudu.service.ProjectVO;
+import java.util.List;
+import dudu.service.DailyVO;
+import dudu.service.PageVO;
+import dudu.member.login.service.DuduLoginVO;
+
+public interface ProjectService {
+
+	public void pjinsert(ProjectVO vo) throws Exception;
+	public List<ProjectVO> pjlist(DuduLoginVO vo) throws Exception;
+	public void pjupdate(ProjectVO vo) throws Exception;
+	public void pjdelete(ProjectVO vo) throws Exception;
+	public void dailyinsert(DailyVO vo) throws Exception;
+	public PageVO pagingParam(int page);
+	public List<DailyVO> getDailyList(String email);
+	public List<ProjectVO> pagingList(int page);
+	public List<ProjectVO> adminpjlist(DuduLoginVO vo) throws Exception;
+}

@@ -1,0 +1,20 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<frameset frameborder="1" framespacing="0" rows="75,*">
+	<frame name="_top" src="/topNav.do" scrolling="no">
+		<frameset frameborder="1" framespacing="0" cols="235px, *, 235px">
+			<frame name="_left" src="/leftNav.do">
+			<frame name="_calendar" src="/duducalendar.do" id="_calendar">
+			<frame name="_right" src="/rightNav.do">
+		</frameset>
+</frameset>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="projectLogsDAO">
+	<resultMap id="projectLogs" type="dudu.project.service.ProjectLogsVO">
+		<result property="logNo" column="log_no" />
+		<result property="pjno" column="log_p_no" />
+		<result property="useremail" column="user_email" />
+		<result property="logOldtitle" column="log_oldtitle" />
+		<result property="pjtitle" column="log_newtitle" />
+		<result property="logOldtext" column="log_oldtext" />
+		<result property="pjcnt" column="log_newtext" />
+		<result property="logOldmember" column="log_oldmember" />
+		<result property="pjmember" column="log_newmember" />
+		<result property="logOldstart" column="log_oldstart" />
+		<result property="pjstart" column="log_newstart" />
+		<result property="logOldend" column="log_oldend" />
+		<result property="pjend" column="log_newend" />
+		<result property="logDate" column="log_date" />
+		<result property="logOldcolor" column="log_oldcolor" />
+		<result property="pjcolor" column="log_newcolor" />
+	</resultMap>
+
+	<insert id="logFirstInsert">
+		INSERT INTO project_logs (
+			LOG_NO, USER_EMAIL, LOG_DATE,
+			LOG_NEWTITLE ,LOG_NEWTEXT, LOG_NEWMEMBER, LOG_NEWSTART, LOG_NEWEND, LOG_NEWCOLOR)
+		SELECT 
+			CONCAT('p', LOG_P_NO + 1, '-1'),
+			#{useremail},
+			now(),
+			#{pjtitle},
+			#{pjcnt},
+			#{pjmember},
+			#{pjstart},
+			#{pjend},
+			#{pjcolor}
+		FROM project_logs
+		ORDER BY LOG_P_NO DESC
+		LIMIT 1
+	</insert>
+	
+	<insert id="insertNewToOld">
+	INSERT INTO project_logs (LOG_NO, LOG_P_NO, USER_EMAIL, LOG_OLDTITLE, LOG_NEWTITLE, LOG_OLDTEXT, LOG_NEWTEXT, LOG_OLDMEMBER, LOG_NEWMEMBER, LOG_OLDSTART, LOG_NEWSTART, LOG_OLDEND, LOG_NEWEND, LOG_DATE, LOG_OLDCOLOR, LOG_NEWCOLOR)
+	SELECT 
+    	CONCAT(SUBSTRING_INDEX(LOG_NO, '-', 1), '-', SUBSTRING_INDEX(LOG_NO, '-', -1) + 1) AS LOG_NO,
+   		LOG_P_NO,
+    	USER_EMAIL,
+    	LOG_NEWTITLE,
+    	NULL AS LOG_NEWTITLE,
+    	LOG_NEWTEXT,
+    	NULL AS LOG_NEWTEXT,
+    	LOG_NEWMEMBER,
+    	NULL AS LOG_NEWMEMBER,
+    	LOG_NEWSTART,
+    	NULL AS LOG_NEWSTART,
+    	LOG_NEWEND,
+    	NULL AS LOG_NEWEND,
+    	CURDATE() AS LOG_DATE,
+    	LOG_NEWCOLOR,
+    	NULL AS LOG_NEWCOLOR
+	FROM project_logs
+	WHERE LOG_P_NO = #{pjno}
+	ORDER BY CAST(SUBSTRING_INDEX(LOG_NO, '-', -1) AS UNSIGNED) DESC
+	LIMIT 1
+	</insert>
+	
+	<select id="logList" parameterType="dudu.project.service.ProjectLogsVO" resultMap="projectLogs">
+		SELECT * FROM project_logs WHERE log_p_no=#{pjno}
+	</select>
+	
+	<update id="logUpdate" parameterType="dudu.project.service.ProjectLogsVO">
+		UPDATE PROJECT_LOGS
+		SET log_newtitle = #{pjtitle},
+			log_newtext = #{pjcnt},
+			log_newmember = #{pjmember},
+			log_newstart = #{pjstart},
+			log_newend = #{pjend},
+			log_date = now(),
+			log_newcolor = #{pjcolor}
+		WHERE log_p_no = #{pjno}
+		AND log_no = CONCAT('p', #{pjno}, '-', (SELECT MAX(CAST(SUBSTRING_INDEX(log_no, '-', -1) AS UNSIGNED)) FROM project_logs WHERE log_p_no = #{pjno}));
+	</update>
+</mapper>

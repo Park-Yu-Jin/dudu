@@ -1,0 +1,158 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+body, input{
+	font-family: 'thejamsil';
+}
+.myPage {
+    width: 100%;
+    padding: 100px 80px;
+}
+.title {
+    font-size: 21px;
+    font-weight: 500;
+    margin-bottom: 50px;
+    color: #2556a3;
+}
+.userInfo {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+.info {
+    display: flex;
+    flex-direction: column;
+    font-weight: 300;
+    font-size: 15px;
+    margin-bottom: 40px;
+    color: #002479;
+}
+input {
+    padding: 10px 15px;
+    font-weight: 300;
+    border: 1px solid #cbcbcb;
+    border-radius: 8px;
+    width: 500px;
+    margin-top: 10px;
+    color: #3f3737;
+}
+input:focus{
+	outline: none;
+}
+.botbutton {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+button{
+	cursor: pointer;
+}
+
+.infoUpdate {
+    background-color: #2a3973;
+    border: none;
+    color: white;
+    font-size: 17px;
+    font-weight: 400;
+    font-family: 'thejamsil';
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.changepw {
+    font-weight: 400;
+    font-family: 'thejamsil';
+    border-radius: 5px;
+    color: white;
+    padding: 5px 15px;
+    background-color: #2a3973;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    translate: 0 -30%;
+    cursor: pointer;
+}
+
+.updateAlert, .updatePw, .newPw {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 500px;
+    height: 220px;
+    background-color: white;
+    border: 1px solid #6f6f6f;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.updateBody {
+    padding: 50px 50px 40px 50px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.alertBody {
+    padding: 50px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+.alertButton{
+    display: flex;
+    justify-content: space-between;
+    width: 130px;
+}
+.Button {
+    color: white;
+    padding: 5px 10px;
+    border: 1px solid #2a3973;
+    background-color: #2a3973;
+    box-sizing: border-box;
+    border-radius: 5px;
+    line-height: 18px;
+    font-weight: 400;
+    font-family: 'TheJamsil';
+}
+#overlay{
+    background-color: #00000061;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 5;
+}
+#password, #newPassword{
+	width: 100%;
+}
+
+.back{
+    position: absolute;
+    top: 30px;
+    left: 35px;
+    background-color: unset;
+    border: unset;
+    color: #b5b5b5;
+}
+.myInfo {
+    border: 1px solid #c3c3c3;
+    padding: 80px;
+    background-color: white;
+    border-radius: 15px;
+}

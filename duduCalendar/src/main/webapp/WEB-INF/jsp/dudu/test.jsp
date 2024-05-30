@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+window.history.forward();
+function noBack(){window.history.forward();}
+</script>
+</head>
+<frameset frameborder="0" framespacing="0" rows="75,*">
+	<frame name="_top" src="/topNav.do" scrolling="no" style="border-bottom: 1px solid #e1e1e1;">
+	<frameset frameborder="0" framespacing="0" cols="235px, *, 235px">
+		<frame name="_left" src="/leftNav.do" style="border-right: 1px solid #e1e1e1;">
+		<frame name="_calendar" src="/duducalendar.do" id="_calendar">
+		<frame name="_right" src="/rightNav.do" style="border-left: 1px solid #e1e1e1;">
+	</frameset>
+</frameset>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
+</body>
+</html>

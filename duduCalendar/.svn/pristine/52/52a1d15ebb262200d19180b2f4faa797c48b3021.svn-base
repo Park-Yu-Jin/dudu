@@ -1,0 +1,54 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+</head>
+<body>
+	<form action="/join.done.do" method="post" >
+		<!-- onsubmit="return memberJoinCheck(this);" -->
+		<table id="memberJoinTbl">
+			<tr>
+				<th>회원가입</th>
+			</tr>
+			<tr>
+				<td align="center">
+					<input id="memberJoinID" name="applcntEmailAdres" class="textType" placeholder="ID" maxlength="30" autocomplete="off" autofocus="autofocus">
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<input name="entrprsMberPassword" class="textType" type="password" placeholder="PW" maxlength="20">
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<input name="user_pwChk" class="textType" type="password" placeholder="PW확인" maxlength="20">
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<input name="cmpnyNm" class="textType" placeholder="이름" maxlength="10" autocomplete="off">
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<input name="orgnztNm" class="textType" placeholder="부서" maxlength="10" autocomplete="off">
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<input name="position" class="textType" placeholder="직급" maxlength="10" autocomplete="off">
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<button>가입</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

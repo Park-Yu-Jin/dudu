@@ -1,0 +1,105 @@
+package dudu.service.impL;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
+import dudu.sql.CommonDAO;
+import dudu.service.UserVO;
+import dudu.service.EmailService;
+import dudu.service.ProjectVO;
+import dudu.service.ProjectService;
+import dudu.service.DailyVO;
+import dudu.service.PageVO;
+import dudu.member.login.service.DuduLoginVO;
+
+@Service
+public class ProjectServiceImpl implements ProjectService {
+	
+	@Resource(name="commonDAO")
+	private CommonDAO commondao;
+	
+	@Override
+	public void pjinsert(ProjectVO vo) {
+		commondao.insert("projectDAO.pjinsert",vo);
+	}
+	
+	@Override
+	public List<ProjectVO> pjlist(DuduLoginVO vo) throws Exception{
+		List<ProjectVO> pjlist = commondao.selectList("projectDAO.pjlist",vo);
+		return pjlist;
+	}
+	
+	@Override
+	public List<ProjectVO> adminpjlist(DuduLoginVO vo)throws Exception{
+		List<ProjectVO> adminpjlist = commondao.selectList("projectDAO.adminpjlist",vo);
+		return adminpjlist;
+	}
+	
+	@Override
+	public void pjupdate(ProjectVO vo) throws Exception{
+		commondao.update("projectDAO.pjupdate",vo);
+	}
+	
+	@Override
+	public void dailyinsert(DailyVO vo) throws Exception{
+		commondao.insert("DailyDAO.dailyinsert",vo);
+	}
+	
+	@Override
+	public void pjdelete(ProjectVO vo) throws Exception{
+		commondao.delete("projectDAO.delete",vo);
+	}
+	
+	int pageLimit = 7;
+	int blockLimit = 5;
+	
+	
+	
+	@Override
+	public List<ProjectVO> pagingList(int page){
+		int pagingStart = (page - 1) * pageLimit;
+		Map<String, Integer> pagingParams = new HashMap<>();
+		pagingParams.put("start", pagingStart);
+		pagingParams.put("limit", pageLimit);
+		List<ProjectVO> pagingList = commondao.selectList("projectDAO.pjlistPage",pagingParams);
+		return pagingList;
+	}
+	
+	@Override
+		public PageVO pagingParam(int page) {
+		int count = commondao.selectOne("projectDAO.count");
+		
+		int maxPage = (int)(Math.ceil((double) count / pageLimit));
+		int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
+		
+		int endPage = startPage + blockLimit - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		PageVO pagevo = new PageVO();
+		
+		pagevo.setPage(page);
+		pagevo.setMaxPage(maxPage);
+		pagevo.setStartPage(startPage);
+		pagevo.setEndpage(endPage);
+		return pagevo;
+	}
+	
+	@Override
+	public List<DailyVO> getDailyList(String email) {
+		return commondao.selectList("DailyDAO.getDailyList", email);
+	}
+}

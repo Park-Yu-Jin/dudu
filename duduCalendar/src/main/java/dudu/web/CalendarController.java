@@ -1,0 +1,148 @@
+package dudu.web;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import dudu.service.UserVO;
+import dudu.HolidayVO;
+import dudu.member.login.service.DuduLoginVO;
+import dudu.service.CalendarService;
+import dudu.service.DailyService;
+import dudu.service.DailyVO;
+import dudu.service.EmailService;
+import dudu.service.HolidayService;
+import dudu.service.ProjectService;
+import dudu.service.ProjectVO;
+import dudu.service.adminService;
+import dudu.service.ApprovalService;
+
+@Controller
+public class CalendarController {
+
+	@Resource(name = "CalendarService")
+	private CalendarService calendarService;
+
+	@Resource(name = "HolidayService")
+	private HolidayService holidayService;
+
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private ProjectService projectService;
+	
+	@Autowired
+	private DailyService dailyService;
+	
+	@Autowired
+	private ApprovalService approvalService;
+	
+	@Autowired
+	private adminService adminService;
+
+	@RequestMapping(value = "duducalendar.do", method = RequestMethod.GET)
+	public String getCalendar(ModelMap model, HttpServletRequest request, @RequestParam(value = "year", required = false) String year, 
+            @RequestParam(value = "month", required = false) String month,
+            UserVO vo) throws Exception {
+		List<HolidayVO> holiday = null;
+		List<UserVO> admin = emailService.userlist(vo);
+		model.addAttribute("user",admin);
+		
+		try {
+			holiday = holidayService.getHoliday();
+			request.setAttribute("holidayList", holiday);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		HttpSession session = request.getSession();
+		DuduLoginVO user = (DuduLoginVO) session.getAttribute("loginMember");
+		List<ProjectVO> project = dailyService.project(user.getName());
+		List<DailyVO> daily = null;
+		List<ProjectVO> projectList=null;
+		try {
+			if(Integer.parseInt(user.getAuth()) == 5) {
+				projectList = projectService.adminpjlist(user, null);
+			}
+			else {
+			projectList = projectService.pjlist(user, null);
+			}
+			request.setAttribute("projectList",projectList);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			daily = projectService.getDailyList(user.getEmail(), null, null);
+			request.setAttribute("dailyList", daily);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		int wait = approvalService.CCC(user, "대기");
+		int finish = approvalService.CCC(user, "완료");
+		int back = approvalService.CCC(user, "반려");
+		model.addAttribute("project",project);
+		model.addAttribute("wait",wait);
+		model.addAttribute("finish",finish);
+		model.addAttribute("back",back);
+		model.addAttribute("projectList",projectList);
+		model.addAttribute("holidayList", holiday);
+		
+		return "/dudu/calendar/duducalendar";
+	}
+
+	@RequestMapping(value="searchlist.do", method = RequestMethod.GET)
+	public String getSearchList(ModelMap model, @RequestParam(value = "keyword", required = false) String keyword, HttpServletRequest request, UserVO vo) throws Exception{
+		HttpSession session = request.getSession();
+		DuduLoginVO user = (DuduLoginVO) session.getAttribute("loginMember");
+		
+		List<ProjectVO> project = dailyService.project(user.getName());
+		List<ProjectVO> projectList = null;
+		
+		try {
+			if(Integer.parseInt(user.getAuth()) == 5) {
+				projectList = projectService.adminpjlist(user, keyword);
+			}
+			else {
+				projectList = projectService.pjlist(user, keyword);
+			}
+			request.setAttribute("projectList",projectList);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		List<DailyVO> dailyList = projectService.getDailyList(user.getEmail(), "false", keyword);
+		List<UserVO> users = emailService.userlist(vo);
+		
+		model.addAttribute("user", users);
+		model.addAttribute("project",project);
+		model.addAttribute("projectList",projectList);
+		model.addAttribute("dailyList", dailyList);
+		
+		return "/dudu/calendar/searchList";
+	}
+	
+	@RequestMapping(value="insertDaily.do", method = RequestMethod.GET)
+	public String insertDaily(DailyVO dailyVO, RedirectAttributes redirect, @RequestParam(value = "year", required = false) String year, 
+            @RequestParam(value = "month", required = false) String month) throws Exception{
+		System.out.println(dailyVO);
+		DailyVO daily = projectService.getDaily(dailyVO.getDailyno());
+		daily.setDadate(dailyVO.getDadate());
+		System.out.println(daily);
+		projectService.insertDaily(daily);
+		return "redirect: /duducalendar.do";
+	}
+
+}

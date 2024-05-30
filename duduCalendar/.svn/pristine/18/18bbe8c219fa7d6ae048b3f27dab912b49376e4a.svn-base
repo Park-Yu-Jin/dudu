@@ -1,0 +1,69 @@
+package dudu.member.join.web;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import dudu.member.join.service.JoinService;
+import dudu.member.join.service.JoinVO;
+import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.rte.fdl.property.EgovPropertyService;
+
+@Controller
+public class JoinController {
+
+	/** duduUserJoinService */
+	@Resource(name = "joinService")
+	private JoinService joinService;
+
+	/** cmmUseService */
+	@Resource(name = "EgovCmmUseService")
+	private EgovCmmUseService cmmUseService;
+
+	/** propertiesService */
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService propertiesService;
+
+	/**
+	 * 회원 가입 화면으로 이동
+	 */
+	@RequestMapping("/join.do")
+	public String joinDo(@ModelAttribute("JoinVO") JoinVO joinVO) throws Exception {
+		return "dudu/member/join";
+	}
+
+	/**
+	 * 회원가입 신청 후 로그인 화면으로 이동
+	 */
+	@RequestMapping("/join.done.do")
+	public String sbscrbEntrprsMber(@ModelAttribute("joinVO") JoinVO joinVO) throws Exception {
+
+		try {
+//			joinVO.setEntrprsMberSttus("A");
+			joinService.insertEntrprsmber(joinVO);
+			return "forward:/main.do";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error-page";
+		}
+	}
+	
+	@RequestMapping("/updatepwd.do")
+	public String updatepwd(@ModelAttribute("joinVO") JoinVO joinvo,ModelMap model, HttpServletRequest request) throws Exception{
+	    System.out.println("DuduUserJoinController 비밀번호 변경 시작");
+	    String newPassword = request.getParameter("entrprsMberPassword");
+	    System.out.println(request.getParameter("entrprsMberPassword"));
+	    try {
+	    	joinvo.setEntrprsMberPassword(newPassword);
+	        joinService.updatePassword(joinvo);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		return "redirect:/main.do";
+	}
+
+}

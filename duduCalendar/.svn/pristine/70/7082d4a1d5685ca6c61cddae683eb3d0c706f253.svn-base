@@ -1,0 +1,10 @@
+package dudu.service;
+
+import dudu.service.ProjectVO;
+import java.util.List;
+
+public interface ProjectService {
+
+	public void pjinsert(ProjectVO vo) throws Exception;
+	public List<ProjectVO> pjlist(ProjectVO vo) throws Exception;
+}

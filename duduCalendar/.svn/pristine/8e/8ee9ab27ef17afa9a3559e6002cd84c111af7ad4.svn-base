@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ApprovalDAO">
+	<resultMap id="Approval" type="dudu.service.ApprovalVO">
+		<result property="appauto" column="APPROVAL_AUTO"/>
+		<result property="appno" column="APPROVAL_NO"/>
+		<result property="useremail" column="USER_EMAIL"/>
+		<result property="appfirst" column="APPROVAL_FIRST"/>
+		<result property="appmiddle" column="APPROVAL_MIDDLE"/>
+		<result property="appfinal" column="APPROVAL_FINAL"/>
+		<result property="appdate" column="APPROVAL_DATE"/>
+		<result property="apptitle" column="APPROVAL_TITLE"/>
+		<result property="appcnt" column="APPROVAL_CONTENT"/>
+		<result property="appstatus" column="APPROVAL_STATUS"/>
+		<result property="appreason" column="APPROVAL_REASON"/>
+		<result property="appfile" column="APPROVAL_FILE"/>
+		<result property="appref" column="APPROVAL_REF"/>
+		<result property="appenddate" column="APPROVAL_ENDDATE"/>
+	</resultMap>
+	
+	<select id="adminapplist" resultMap="Approval">
+		SELECT * FROM APPROVAL
+	</select>
+	
+	<select id="applist" parameterType="java.util.HashMap" resultMap="Approval">
+		<![CDATA[
+			SELECT * FROM APPROVAL WHERE APPROVAL_STATUS <= #{auth} LIMIT #{start}, #{limit}
+		]]>
+	</select>
+	
+	<select id="detailapp" parameterType="java.lang.Integer" resultMap="Approval">
+		SELECT * FROM APPROVAL WHERE APPROVAL_AUTO = #{appauto}
+	</select>
+	
+	<insert id="appinsert" parameterType="dudu.service.ApprovalVO">
+		INSERT INTO APPROVAL(
+			USER_EMAIL,
+			APPROVAL_FIRST,
+			APPROVAL_MIDDLE,
+			APPROVAL_FINAL,
+			APPROVAL_TITLE,
+			APPROVAL_CONTENT,
+			APPROVAL_STATUS,
+			APPROVAL_FILE,
+			APPROVAL_REF,
+			APPROVAL_DATE
+		)
+		VALUE(
+			#{useremail},
+			#{appfirst},
+			#{appmiddle},
+			#{appfinal},
+			#{apptitle},
+			#{appcnt},
+			#{appstatus},
+			#{appfile},
+			#{appref},
+			SYSDATE()
+		)
+	</insert>
+	
+	<update id="appupdate" parameterType="dudu.service.ApprovalVO">
+		UPDATE APPROVAL SET
+			APPROVAL_FIRST = #{appfirst},
+			APPROVAL_MIDDLE = #{appmiddle},
+			APPROVAL_FINAL = #{appfinal},
+			APPROVAL_STATUS = #{appstatus},
+			APPROVAL_ENDDATE = SYSDATE()
+			WHERE APPROVAL_AUTO = #{appauto}
+	</update>
+	
+	<update id="appback" parameterType="dudu.service.ApprovalVO">
+		UPDATE APPROVAL SET
+			APPROVAL_STATUS = #{appstatus},
+			APPROVAL_REASON = #{appreason},
+			APPROVAL_ENDDATE = SYSDATE()
+			WHERE APPROVAL_AUTO = #{appauto}
+	</update>
+	
+	<select id ="count" resultType="int">
+		SELECT COUNT(*) FROM APPROVAL
+	</select>
+	
+</mapper>

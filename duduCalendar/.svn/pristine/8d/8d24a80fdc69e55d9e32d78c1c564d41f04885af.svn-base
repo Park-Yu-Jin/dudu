@@ -1,0 +1,54 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>두두캘린더</title>
+</head>
+<body>
+	<div class="login-wrapper">
+		<div class="login-list">
+			<a href="/">
+				<img class="login-logo" src="/images/dudu/sky_duduCalendar_logo.svg" alt="로고">
+			</a>
+		</div>
+		<form class="login-form" name="loginForm" id="loginForm" action="/login.do" method="post">
+			<input type="hidden" id="message" name="message" value="<c:out value='${message}'/>">
+
+			<fieldset>
+				<div class="login_input">
+					<ul>
+						<c:set var="title">아이디</c:set>
+						<li>
+							<img alt="사용자 아이디 입력 아이콘 " src="/images/dudu/user_id.svg" id="userIdIcon">
+							<input class="admin-input" type="text" name="id" id="id" maxlength="30" title="아이디" placeholder="아이디">
+						</li>
+						<c:set var="title">비밀번호</c:set>
+						<li class="admin-list-pw">
+							<img alt="사용자 아이디 입력 아이콘 " src="/images/dudu/user_pw.svg" id="userPwIcon">
+							<input class="admin-input" type="password" name="password" id="password" maxlength="20" title="비밀번호" placeholder="비밀번호">
+						</li>
+						<li>
+							<input id="userLoginBtn" type="button" class="btn_login user-login-btn" value="로그인" onclick="actionLogin()" style="display:none;">
+							<button id="userLoginBtn class="btn_login user-login-btn">로그인</button>
+						</li>
+						<li class="chk">
+							<input style="display: none;" name="checkId" class="check2" onclick="javascript:saveid(document.loginForm);" id="checkId">
+							<a href="/join.do" id="RegiUsr">회원가입 | </a>
+							<a href="/dudu.do" onclick="goPassword(); return false;" id="password" class="password">비밀번호 초기화</a>
+							<div class="description">
+								비밀번호를 잊어버렸을 경우 비밀번호를<br>초기화 한 후에 관리자에게 문의하세요.
+							</div>
+						</li>
+					</ul>
+				</div>
+
+			</fieldset>
+
+			<input name="userSe" type="hidden" value="GNR" />
+			<input name="j_username" type="hidden" />
+		</form>
+	</div>
+</body>
+</html>

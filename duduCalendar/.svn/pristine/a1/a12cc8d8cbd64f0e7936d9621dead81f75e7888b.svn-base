@@ -1,0 +1,184 @@
+package dudu.Controller;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import dudu.service.UserVO;
+import dudu.service.DailyVO;
+import dudu.service.EmailService;
+import dudu.service.ProjectVO;
+import dudu.service.ProjectService;
+import egovframework.com.uat.uia.service.EgovLoginService;
+import dudu.service.adminService;
+
+@Controller
+public class MainController implements ApplicationContextAware, InitializingBean {
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private ProjectService projectService;
+	
+	@Autowired
+	private adminService adminService;
+	
+	private ApplicationContext applicationContext;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+	
+	public void afterPropertiesSet() throws Exception {}
+	
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+		
+		LOGGER.info("EgovComIndexController setApplicationContext method has called!");
+	}
+	
+	
+	/** EgovLoginService */
+	@Resource(name = "loginService")
+	private EgovLoginService loginService;
+	
+	@RequestMapping(value = "main.do")
+	public String mainDo() throws Exception {
+		return "dudu/login";
+	}
+	
+	
+//	@RequestMapping(value = "calendar.do")
+//	public String CalendarDo() throws Exception {
+//		return "dudu/helloworld";
+//	}
+	
+	
+	
+	@RequestMapping("dudu.do")
+	public String main(ModelMap model) throws Exception{
+		System.out.println("성공");
+		System.out.println("ㅎㅎ");
+		return "dudu/main";
+	}
+	
+	@RequestMapping("send.do")
+	public String send(@ModelAttribute UserVO vo, Model model) {
+		String str = emailService.getPassword();
+		System.out.println("################"+vo.getUseremail());
+		System.out.println("비밀번호: "+str);
+		try {
+			emailService.sendMail(vo,str);
+//			emailService.updatePassword(vo);
+			vo.setMessage(str);
+			System.out.println(vo.getMessage());
+			System.out.println(vo);
+			model.addAttribute("user",vo);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("message","이메일 발송 실패");
+		}
+		return "dudu/main";
+	}
+	/*프로젝트 등록*/
+	@RequestMapping("pjinsert.do")
+	public String pjinsert(ProjectVO vo) throws Exception {
+		projectService.pjinsert(vo);
+		return "redirect:/duducalendar.do";
+	}
+	
+	/*프로젝트 수정*/
+	@RequestMapping("pjupdate.do")
+	public String pjupdate(ProjectVO vo) throws Exception{
+		projectService.pjupdate(vo);
+
+		return "redirect:/pjlist.do";
+	}
+	
+	/*일일 업무 등록*/
+	@RequestMapping("dailyinsert.do")
+	public String dailyinsert(DailyVO vo)throws Exception{
+		projectService.dailyinsert(vo);
+		return "redirect:/duducalendar.do";
+	}
+	
+	@RequestMapping("pjlist.do")
+	public String pjlist(ProjectVO vo,UserVO uservo, ModelMap model) throws Exception{
+		List<ProjectVO> pjlist = projectService.pjlist(vo);
+		model.addAttribute("result",pjlist);
+		List<UserVO> admin = emailService.userlist(uservo);
+		model.addAttribute("userList",admin);
+		
+		System.out.println("이건 나와?"+vo.getPjtitle());
+		return "dudu/pjlist";
+	}
+
+	@RequestMapping("test.do")
+	public String test() {
+		return "dudu/test";
+	}
+	
+	@RequestMapping("leftNav.do")
+	public String leftNav() {
+		return "dudu/nav/leftNav";
+	}
+	
+	@RequestMapping("topNav.do")
+	public String topNav() {
+		return "dudu/nav/topNav";
+	}
+	
+	@RequestMapping("rightNav.do")
+	public String rightNav() {
+		return "dudu/nav/rightNav";
+	}
+	
+	@RequestMapping("admin.do")
+	public String admin(UserVO vo, ModelMap model) throws Exception{
+		List<UserVO> admin = emailService.userlist(vo);
+		model.addAttribute("user",admin);
+		return "dudu/admin/admin";
+	}
+	
+	/*가입 승인*/
+	@RequestMapping("adminregist.do")
+	public String adminregist(UserVO vo,HttpServletRequest request) throws Exception {
+		System.out.println("나와라 얍"+vo.getUserstatus());
+		String[] email = request.getParameterValues("useremail");
+		for(int i=0; i<email.length;i++) {
+			vo.setUserstatus("1");
+			vo.setUseremail(email[i]);
+			adminService.updatestatus(vo);
+		}
+		return "redirect:/admin.do";
+	}
+	
+	/*직급 변경*/
+	@RequestMapping("admintrade.do")
+	public String admintrade(UserVO vo, HttpServletRequest request)throws Exception{
+		String[] rank = request.getParameterValues("userrank");
+		String[] email = request.getParameterValues("useremail");
+		
+		for(int i =0; i<rank.length; i++) {
+			vo.setUserrank(rank[i]);
+			vo.setUseremail(email[i]);
+			adminService.traderank(vo);
+		}
+		return "redirect:/admin.do";
+	}
+	
+	
+
+}
